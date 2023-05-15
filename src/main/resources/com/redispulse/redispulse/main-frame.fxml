@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.redispulse.redispulse.controller.MainController">
+    <left>
+        <fx:include source="connections.fxml" />
+    </left>
+    <center>
+        <Pane style="-fx-background-color: #ffffff;">
+            <Label text="Center Panel" />
+        </Pane>
+    </center>
+</BorderPane>

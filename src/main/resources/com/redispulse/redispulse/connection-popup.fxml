@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.Button?>
+<VBox spacing="10" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" fx:controller="com.redispulse.redispulse.controller.PopupController">
+    <HBox alignment="CENTER">
+        <Region prefWidth="20"/>
+        <Label text="Connection name:" prefWidth="100" alignment="CENTER" />
+        <Region prefWidth="10"/>
+        <TextField fx:id="nameField" HBox.hgrow="ALWAYS" />
+        <Region prefWidth="20"/>
+    </HBox>
+    <HBox alignment="CENTER">
+        <Region prefWidth="20"/>
+        <Label text="Address:" prefWidth="100"  alignment="CENTER" />
+        <Region prefWidth="10"/>
+        <TextField fx:id="addressField" HBox.hgrow="ALWAYS" promptText="127.0.0.1" />
+        <Region prefWidth="20"/>
+    </HBox>
+    <HBox alignment="CENTER">
+        <Region prefWidth="20"/>
+        <Label text="Port:" prefWidth="100" alignment="CENTER"  />
+        <Region prefWidth="10"/>
+        <TextField fx:id="portField" HBox.hgrow="ALWAYS" promptText="6379" />
+        <Region prefWidth="20"/>
+    </HBox>
+    <HBox alignment="CENTER">
+        <Button text="Add connection" onAction="#onAddConnectionPress"/>
+    </HBox>
+</VBox>
