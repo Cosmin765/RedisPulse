@@ -11,7 +11,9 @@ target/
 *.iws
 *.iml
 *.ipr
-
+/logs
+/out
+/connections.json
 ### Eclipse ###
 .apt_generated
 .classpath

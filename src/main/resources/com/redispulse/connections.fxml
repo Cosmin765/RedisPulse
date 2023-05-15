@@ -5,8 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.collections.FXCollections?>
-<?import javafx.scene.text.Text?>
-<VBox prefWidth="200" style="-fx-background-color: #f4f4f4;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.redispulse.redispulse.controller.ConnectionsController">
+<VBox prefWidth="200" style="-fx-background-color: #f4f4f4;" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.redispulse.controller.ConnectionsController">
     <VBox VBox.vgrow="ALWAYS">
         <ListView fx:id="listView" VBox.vgrow="ALWAYS">
             <items>

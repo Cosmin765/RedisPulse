@@ -1,11 +1,8 @@
-package com.redispulse.redispulse.controller;
+package com.redispulse.controller;
 
-import com.redispulse.redispulse.util.ConnectionData;
+import com.redispulse.util.ConnectionData;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class PopupController {
@@ -31,7 +28,6 @@ public class PopupController {
             }
         });
     }
-
     @FXML
     private void onAddConnectionPress() {
         String connectionName = nameField.getText();

@@ -1,4 +1,4 @@
-package com.redispulse.redispulse.util;
+package com.redispulse.util;
 
 import lombok.Data;
 

@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="RedisPulse:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c10677f1-1736-4dbb-9741-e23a902ac811" name="Changes" comment="" />
+    <list default="true" id="c10677f1-1736-4dbb-9741-e23a902ac811" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/redispulse/RedisPulseApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/RedisPulseApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/redispulse/controller/ConnectionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/redispulse/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/redispulse/controller/PopupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/PopupController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/redispulse/util/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/util/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/redispulse/util/ConnectionData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/util/ConnectionData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/redispulse/connection-popup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/connection-popup.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/redispulse/connections.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/connections.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/redispulse/main-frame.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/main-frame.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/redispulse/styles/connections.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/styles/connections.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
@@ -29,9 +62,55 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "C:/Projects/Java/Lab10",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Projects\RedisPulse\src\main\java\com\redispulse\redispulse\controller" />
+      <recent name="C:\Projects\RedisPulse\src\main\resources\com\redispulse\redispulse" />
+      <recent name="C:\Projects\RedisPulse\src\main\resources\com\redispulse\redispulse\styles" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.com.redispulse.RedisPulseApplication">
+    <configuration name="RedisPulseApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.redispulse.redispulse.RedisPulseApplication" />
+      <module name="RedisPulse" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.redispulse.redispulse.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="com.redispulse.RedisPulseApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.redispulse.RedisPulseApplication" />
+      <module name="RedisPulse" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.redispulse.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.com.redispulse.RedisPulseApplication" />
+        <item itemvalue="Application.RedisPulseApplication" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

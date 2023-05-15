@@ -1,12 +1,12 @@
-package com.redispulse.redispulse.controller;
+package com.redispulse.controller;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.redispulse.redispulse.RedisPulseApplication;
-import com.redispulse.redispulse.util.Config;
-import com.redispulse.redispulse.util.ConnectionData;
+import com.redispulse.RedisPulseApplication;
+import com.redispulse.util.Config;
+import com.redispulse.util.ConnectionData;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +17,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,15 +29,15 @@ public class ConnectionsController {
     @FXML
     public ListView<HBox> listView;
     private List<ConnectionData> connections = new ArrayList<>();
-
+    private final Logger logger = LogManager.getLogger(ConnectionsController.class);
     @FXML
     private void initialize() {
         loadConnections();
     }
-
     private void loadConnections() {
         File connectionsFile = new File(Config.CONNECTIONS_JSON_FILE);
         if(!connectionsFile.isFile()) {
+            logger.info("The connections json file does not exist");
             return;
         }
 
@@ -43,9 +45,11 @@ public class ConnectionsController {
         try {
             connections = objectMapper.readValue(connectionsFile, new TypeReference<>() {});
             connections.forEach(this::renderConnection);
-        } catch (JsonParseException | JsonMappingException ignored) {
+            logger.info("Loaded the connections json file");
+        } catch (JsonParseException | JsonMappingException e) {
+            logger.error("Error while parsing the connections json file", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error while reading the connections json file", e);
         }
     }
     private void renderConnection(ConnectionData connection) {
@@ -55,10 +59,10 @@ public class ConnectionsController {
     }
     public void addNewConnection(ConnectionData connection) {
         connections.add(new ConnectionData(connection.name(), connection.address(), connection.port()));
+        logger.info("Added a new connection: " + connection);
         dumpConnections();
         renderConnection(connection);
     }
-
     private void dumpConnections() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -66,8 +70,9 @@ public class ConnectionsController {
         try {
             File connectionsFile = new File(Config.CONNECTIONS_JSON_FILE);
             objectMapper.writeValue(connectionsFile, connections);
+            logger.info("Dumped the connections");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error while dumping the connections", e);
         }
     }
     @FXML
@@ -94,7 +99,7 @@ public class ConnectionsController {
             popupStage.showAndWait();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error while creating the popup", e);
         }
     }
 }
