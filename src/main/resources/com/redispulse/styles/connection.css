@@ -1,0 +1,5 @@
+.ellipsis {
+    -fx-font-size: 15px;
+    -fx-rotate: 90;
+    -fx-padding: 5px;
+}

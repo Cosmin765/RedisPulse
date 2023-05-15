@@ -30,6 +30,6 @@
         <Region prefWidth="20"/>
     </HBox>
     <HBox alignment="CENTER">
-        <Button text="Add connection" onAction="#onAddConnectionPress"/>
+        <Button text="Save" onAction="#onAddConnectionPress"/>
     </HBox>
 </VBox>

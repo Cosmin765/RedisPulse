@@ -5,7 +5,7 @@
             <PatternLayout pattern="%d [%t] %-5level [%L] %logger{36} - %msg%n"/>
         </Console>
 
-        <File name="FileAppender" fileName="redis_pulse.log">
+        <File name="FileAppender" fileName="logs/redis_pulse.log">
             <PatternLayout pattern="%d [%t] %-5level [%L] %logger{36} - %msg%n"/>
         </File>
     </Appenders>

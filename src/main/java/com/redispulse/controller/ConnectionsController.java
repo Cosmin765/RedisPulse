@@ -24,12 +24,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ConnectionsController {
     @FXML
     public ListView<HBox> listView;
     private List<ConnectionData> connections = new ArrayList<>();
     private final Logger logger = LogManager.getLogger(ConnectionsController.class);
+    public List<ConnectionData> getConnections() {
+        return connections;
+    }
     @FXML
     private void initialize() {
         loadConnections();
@@ -53,15 +57,55 @@ public class ConnectionsController {
         }
     }
     private void renderConnection(ConnectionData connection) {
-        HBox newItem = new HBox();
-        newItem.getChildren().add(new Text(connection.name()));
-        listView.getItems().add(newItem);
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(RedisPulseApplication.class.getResource("connection.fxml"));
+
+            HBox newItem = fxmlLoader.load();
+            Text connectionName = (Text) newItem.getChildren().get(0);
+            connectionName.setText(connection.name());
+            listView.getItems().add(newItem);
+
+            ConnectionController connectionController = fxmlLoader.getController();
+            connectionController.setConnectionsController(this);
+        } catch (IOException e) {
+            logger.info("Error while loading the connection template", e);
+        }
     }
     public void addNewConnection(ConnectionData connection) {
         connections.add(new ConnectionData(connection.name(), connection.address(), connection.port()));
-        logger.info("Added a new connection: " + connection);
         dumpConnections();
         renderConnection(connection);
+        logger.info("Added a new connection: " + connection);
+    }
+    public void editConnection(String connectionName, ConnectionData newConnection) {
+        Optional<ConnectionData> existingConnection = connections.stream().filter(c -> c.name().equals(connectionName)).findFirst();
+
+        if(existingConnection.isEmpty()) {
+            logger.error("Connection was not found while editing");
+            return;
+        }
+
+        int connectionIndex = connections.indexOf(existingConnection.get());
+        connections.set(connectionIndex, newConnection);
+
+        Optional<HBox> hBox = listView.getItems().stream().filter(el -> ((Text) el.getChildren().get(0)).getText().equals(connectionName)).findFirst();
+
+        if(hBox.isEmpty()) {
+            logger.error("Could not find the connection inside the ListView");
+            return;
+        }
+
+        HBox unwrappedHBox = hBox.get();
+        Text nameText = (Text) unwrappedHBox.getChildren().get(0);
+        nameText.setText(newConnection.name());
+
+        dumpConnections();
+    }
+    public void deleteConnection(String connectionName) {
+        connections.removeIf(connectionData -> connectionData.name().equals(connectionName));
+        listView.getItems().removeIf(hBox -> ((Text) hBox.getChildren().get(0)).getText().equals(connectionName));
+        dumpConnections();
+        logger.info("Removed connection: " + connectionName);
     }
     private void dumpConnections() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -90,7 +134,7 @@ public class ConnectionsController {
             popupStage.setHeight(200);
 
             PopupController popupController = fxmlLoader.getController();
-            popupController.setConnectionsController(this);
+            popupController.setHandler(this::addNewConnection);
             popupController.setPopupStage(popupStage);
 
             Scene scene = new Scene(root);
