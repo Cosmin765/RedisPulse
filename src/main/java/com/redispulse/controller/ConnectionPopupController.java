@@ -5,10 +5,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.util.function.Consumer;
+import java.util.UUID;
+import java.util.function.Function;
 
-public class PopupController {
-    private Consumer<ConnectionData> handler;
+public class ConnectionPopupController {
+    private ConnectionData connectionData;
+    private Function<ConnectionData, Boolean> handler;
     private Stage popupStage;
     @FXML
     private TextField nameField;
@@ -16,13 +18,14 @@ public class PopupController {
     private TextField addressField;
     @FXML
     private TextField portField;
-    public void setHandler(Consumer<ConnectionData> handler) {
+    public void setHandler(Function<ConnectionData, Boolean> handler) {
         this.handler = handler;
     }
     public void setConnectionData(ConnectionData connectionData) {
+        this.connectionData = connectionData;
         nameField.setText(connectionData.name());
         addressField.setText(connectionData.address());
-        portField.setText(connectionData.port());
+        portField.setText(connectionData.port().toString());
     }
     public void setPopupStage(Stage popupStage) {
         this.popupStage = popupStage;
@@ -53,7 +56,11 @@ public class PopupController {
         if(port.equals("")) {
             port = portField.getPromptText();
         }
-        handler.accept(new ConnectionData(connectionName, address, port));
-        popupStage.close();
+        UUID connectionId = connectionData == null ? null : connectionData.id();
+        boolean complete = handler.apply(new ConnectionData(connectionId, connectionName, address, Integer.parseInt(port)));
+
+        if(complete) {
+            popupStage.close();
+        }
     }
 }

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.control.Button?>
-<VBox spacing="10" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" fx:controller="com.redispulse.controller.PopupController">
+<VBox spacing="10" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" fx:controller="com.redispulse.controller.ConnectionPopupController">
     <HBox alignment="CENTER">
         <Region prefWidth="20"/>
         <Label text="Connection name:" prefWidth="100" alignment="CENTER" />

@@ -6,10 +6,26 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.Region?>
 
-<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.redispulse.controller.ConnectionController" stylesheets="@styles/connection.css">
-    <Text fx:id="nameText" style="-fx-font-size: 16px;" />
+<?import javafx.scene.layout.VBox?>
 
-    <Region HBox.hgrow="ALWAYS" />
+<?import javafx.scene.control.ListView?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 
-    <Label fx:id="ellipsis" styleClass="ellipsis" text="•••" onMouseClicked="#onEllipsisClick"  />
-</HBox>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.redispulse.controller.ConnectionController">
+    <HBox alignment="CENTER"
+          stylesheets="@styles/connection.css" onMouseClicked="#onConnectionClick">
+        <Text fx:id="nameText" style="-fx-font-size: 16px;" />
+
+        <Region HBox.hgrow="ALWAYS" />
+
+        <Label fx:id="ellipsis" styleClass="ellipsis" text="•••" onMouseClicked="#onEllipsisClick"  />
+    </HBox>
+<!--    <ListView>-->
+<!--        <items>-->
+<!--            <FXCollections fx:factory="observableArrayList">-->
+<!--                <String>Hello</String>-->
+<!--            </FXCollections>-->
+<!--        </items>-->
+<!--    </ListView>-->
+</VBox>

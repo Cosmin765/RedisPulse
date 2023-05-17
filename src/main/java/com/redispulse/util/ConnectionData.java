@@ -1,7 +1,6 @@
 package com.redispulse.util;
 
-import lombok.Data;
-
 import java.io.Serializable;
+import java.util.UUID;
 
-public record ConnectionData(String name, String address, String port) implements Serializable {}
+public record ConnectionData(UUID id, String name, String address, Integer port) implements Serializable {}

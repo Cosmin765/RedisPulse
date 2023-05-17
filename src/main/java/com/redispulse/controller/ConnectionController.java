@@ -8,9 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -18,13 +16,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class ConnectionController {
+    private Jedis jedis;
+    private ConnectionData connectionData;
     @FXML
     private Label ellipsis;
     @FXML
@@ -32,8 +33,15 @@ public class ConnectionController {
     private ContextMenu contextMenu;
     private ConnectionsController connectionsController;
     private final Logger logger = LogManager.getLogger(ConnectionsController.class);
+
+    public Text getNameText() {
+        return nameText;
+    }
     public void setConnectionsController(ConnectionsController connectionsController) {
         this.connectionsController = connectionsController;
+    }
+    public void setConnectionData(ConnectionData connectionData) {
+        this.connectionData = connectionData;
     }
     @FXML
     private void initialize() {
@@ -51,11 +59,57 @@ public class ConnectionController {
     }
     @FXML
     private void onEllipsisClick(MouseEvent event) {
-        if (event.getButton() == MouseButton.PRIMARY) {
-            if (event.getClickCount() == 1) {
+        if(event.getButton() == MouseButton.PRIMARY) {
+            if(event.getClickCount() == 1) {
                 contextMenu.show(ellipsis, event.getScreenX(), event.getScreenY());
             }
         }
+    }
+    private boolean initializeJedis() {
+        if(jedis != null && jedis.isConnected()) {
+            jedis.disconnect();
+        }
+        jedis = new Jedis(connectionData.address(), connectionData.port());
+
+        try {
+            jedis.connect();
+        } catch (JedisConnectionException e) {
+            logger.error("Error while connecting to the redis server", e);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("An error occurred");
+            String message = String.format("Connection to %s:%d failed", connectionData.address(), connectionData.port());
+            alert.setContentText(message);
+            alert.showAndWait();
+            return false;
+        }
+        return true;
+    }
+    @FXML
+    private void onConnectionClick(MouseEvent event) {
+        switch (event.getButton()) {
+            case PRIMARY -> {
+                if (event.getClickCount() == 2) {
+                    initializeJedis();
+                    for(String key : jedis.keys("*")) {
+                        String type = jedis.type(key);
+                        System.out.println(key + " " + type);
+                    }
+                }
+            }
+            case SECONDARY -> {
+                if (event.getClickCount() == 1) {
+                    contextMenu.show(ellipsis, event.getScreenX(), event.getScreenY());
+                }
+            }
+        }
+    }
+    private boolean editConnection(ConnectionData connection) {
+        boolean succeeded = connectionsController.editConnection(nameText.getText(), connection);
+        if(succeeded) {
+            setConnectionData(connection);
+        }
+        return succeeded;
     }
     @FXML
     private void handleOptionEdit(ActionEvent event) {
@@ -66,24 +120,16 @@ public class ConnectionController {
 
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.APPLICATION_MODAL);
-            popupStage.setTitle("Add connection");
+            popupStage.setTitle("Edit connection");
             popupStage.setResizable(false);
             popupStage.setWidth(300);
             popupStage.setHeight(200);
 
-            PopupController popupController = fxmlLoader.getController();
+            ConnectionPopupController connectionPopupController = fxmlLoader.getController();
 
-            Optional<ConnectionData> connectionData = connectionsController.getConnections().stream().filter(connection ->
-                    nameText.getText().equals(connection.name())).findAny();
-
-            if(connectionData.isEmpty()) {
-                logger.error("Connection was not found while editing");
-                return;
-            }
-
-            popupController.setConnectionData(connectionData.get());
-            popupController.setHandler(connection -> connectionsController.editConnection(nameText.getText(), connection));
-            popupController.setPopupStage(popupStage);
+            connectionPopupController.setConnectionData(connectionData);
+            connectionPopupController.setHandler(this::editConnection);
+            connectionPopupController.setPopupStage(popupStage);
 
             Scene scene = new Scene(root);
             popupStage.setScene(scene);
@@ -97,6 +143,19 @@ public class ConnectionController {
     @FXML
     private void handleOptionDelete(ActionEvent event) {
         String connectionName = nameText.getText();
-        connectionsController.deleteConnection(connectionName);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        alert.setTitle("Delete");
+        String message = String.format("Are you sure you want to delete \"%s\"?", connectionName);
+        alert.setHeaderText(message);
+
+        alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+
+        ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
+
+        if(result == ButtonType.OK) {
+            connectionsController.deleteConnection(connectionData.id());
+        }
     }
 }

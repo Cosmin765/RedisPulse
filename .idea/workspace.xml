@@ -10,22 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c10677f1-1736-4dbb-9741-e23a902ac811" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/redispulse/RedisPulseApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/RedisPulseApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/redispulse/controller/ConnectionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/redispulse/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/redispulse/controller/PopupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/PopupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/redispulse/util/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/util/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/redispulse/util/ConnectionData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/util/ConnectionData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/MainFrameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/PopupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionPopupController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/util/ConnectionData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/util/ConnectionData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/redispulse/connection-popup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/connection-popup.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/redispulse/connections.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/connections.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/redispulse/main-frame.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/main-frame.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/redispulse/styles/connections.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/styles/connections.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/connection-popup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/connection-popup.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/connection.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/connection.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/main-frame.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/main-frame.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +58,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Projects/Java/Lab10",
+    "last_opened_file_path": "C:/Projects/RedisPulse",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
@@ -72,6 +66,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Projects\RedisPulse\src\main\resources\com\redispulse" />
       <recent name="C:\Projects\RedisPulse\src\main\java\com\redispulse\redispulse\controller" />
       <recent name="C:\Projects\RedisPulse\src\main\resources\com\redispulse\redispulse" />
       <recent name="C:\Projects\RedisPulse\src\main\resources\com\redispulse\redispulse\styles" />
