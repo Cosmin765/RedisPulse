@@ -10,17 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c10677f1-1736-4dbb-9741-e23a902ac811" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/KeyController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/KeysController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/util/KeyData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/util/KeyType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/key.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/keys.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/base/OperationsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/util/RedisIterable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/connection.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/connection.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/connections.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/connections.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/KeyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/KeyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/KeysController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/KeysController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +26,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="FxmlFile" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>

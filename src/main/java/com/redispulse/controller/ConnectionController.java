@@ -99,7 +99,10 @@ public class ConnectionController {
         return true;
     }
     private void handleSelect() {
-        initializeJedis();
+        if(!initializeJedis()) {
+            return;
+        }
+
         keysController.clearKeys();
         for(String key : jedis.keys("*")) {
             String keyTypeString = jedis.type(key);
@@ -107,7 +110,7 @@ public class ConnectionController {
             KeyType keyType = typeStrToEnum.get(keyTypeString);
 
             if(keyType == null) {
-                System.out.println(keyTypeString + " is not implemented");
+                logger.error(keyTypeString + " is not implemented");
                 return;
             }
 

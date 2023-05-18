@@ -8,11 +8,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class KeyController {
+    private final Logger logger = LogManager.getLogger(ConnectionsController.class);
     private final Map<KeyType, Pair<Color, String>> typeToData = new HashMap<>();
     @FXML
     private Label keyLabel;
@@ -20,7 +22,7 @@ public class KeyController {
     private Text letterText;
     @FXML
     private Circle bubble;
-    private KeyData keyData;
+//    private KeyData keyData;
 
     public KeyController() {
         typeToData.put(KeyType.DICTIONARY, new Pair<>(Color.RED, "D"));
@@ -30,11 +32,11 @@ public class KeyController {
         typeToData.put(KeyType.LIST, new Pair<>(Color.ORANGE, "L"));
     }
     public void setKeyData(KeyData keyData) {
-        this.keyData = keyData;
+//        this.keyData = keyData;
 
         Pair<Color, String> renderData = typeToData.get(keyData.type());
         if(renderData == null) {
-            System.out.println("Render data not implemented for type " + keyData.type());
+            logger.error("Render data not implemented for type " + keyData.type());
             return;
         }
 
