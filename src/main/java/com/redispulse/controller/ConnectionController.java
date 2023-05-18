@@ -2,6 +2,8 @@ package com.redispulse.controller;
 
 import com.redispulse.RedisPulseApplication;
 import com.redispulse.util.ConnectionData;
+import com.redispulse.util.KeyData;
+import com.redispulse.util.KeyType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,6 +22,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -32,10 +35,20 @@ public class ConnectionController {
     private Text nameText;
     private ContextMenu contextMenu;
     private ConnectionsController connectionsController;
+    private KeysController keysController;
+    private final Map<String, KeyType> typeStrToEnum;
     private final Logger logger = LogManager.getLogger(ConnectionsController.class);
 
-    public Text getNameText() {
-        return nameText;
+    public ConnectionController() {
+        typeStrToEnum = new HashMap<>();
+        typeStrToEnum.put("string", KeyType.STRING);
+        typeStrToEnum.put("hash", KeyType.DICTIONARY);
+        typeStrToEnum.put("zset", KeyType.ZSET);
+        typeStrToEnum.put("set", KeyType.SET);
+        typeStrToEnum.put("list", KeyType.LIST);
+    }
+    public void setKeysController(KeysController keysController) {
+        this.keysController = keysController;
     }
     public void setConnectionsController(ConnectionsController connectionsController) {
         this.connectionsController = connectionsController;
@@ -85,16 +98,29 @@ public class ConnectionController {
         }
         return true;
     }
+    private void handleSelect() {
+        initializeJedis();
+        keysController.clearKeys();
+        for(String key : jedis.keys("*")) {
+            String keyTypeString = jedis.type(key);
+
+            KeyType keyType = typeStrToEnum.get(keyTypeString);
+
+            if(keyType == null) {
+                System.out.println(keyTypeString + " is not implemented");
+                return;
+            }
+
+            KeyData keyData = new KeyData(key, keyType);
+            keysController.addKey(keyData);
+        }
+    }
     @FXML
     private void onConnectionClick(MouseEvent event) {
         switch (event.getButton()) {
             case PRIMARY -> {
                 if (event.getClickCount() == 2) {
-                    initializeJedis();
-                    for(String key : jedis.keys("*")) {
-                        String type = jedis.type(key);
-                        System.out.println(key + " " + type);
-                    }
+                    handleSelect();
                 }
             }
             case SECONDARY -> {

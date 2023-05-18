@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -27,11 +28,24 @@ import java.util.*;
 
 public class ConnectionsController {
     @FXML
-    public ListView<Parent> listView;
+    private HBox connectionsRoot;
+    @FXML
+    private ListView<Parent> connectionsListView;
     private final Map<UUID, ConnectionData> connections = new LinkedHashMap<>();
     private final Logger logger = LogManager.getLogger(ConnectionsController.class);
+    private KeysController keysController;
+
     @FXML
     private void initialize() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(RedisPulseApplication.class.getResource("keys.fxml"));
+
+            Parent root = fxmlLoader.load();
+            connectionsRoot.getChildren().add(root);
+            keysController = fxmlLoader.getController();
+        } catch (IOException e) {
+            logger.error("Error while appending the keys component to the connection", e);
+        }
         loadConnections();
     }
     private void loadConnections() {
@@ -55,16 +69,16 @@ public class ConnectionsController {
     }
     private void renderConnection(ConnectionData connection) {
         try {
-            System.out.println(connection);
             FXMLLoader fxmlLoader = new FXMLLoader(RedisPulseApplication.class.getResource("connection.fxml"));
             Parent newItem = fxmlLoader.load();
-            listView.getItems().add(newItem);
+            connectionsListView.getItems().add(newItem);
             Text connectionName = (Text) newItem.lookup("#nameText");
             connectionName.setText(connection.name());
 
             ConnectionController connectionController = fxmlLoader.getController();
             connectionController.setConnectionsController(this);
             connectionController.setConnectionData(connection);
+            connectionController.setKeysController(keysController);
         } catch (IOException e) {
             logger.info("Error while loading the connection template", e);
         }
@@ -101,7 +115,7 @@ public class ConnectionsController {
 
         connections.put(newConnection.id(), newConnection);
 
-        Optional<Parent> item = listView.getItems().stream().filter(el -> ((Text) el.lookup("#nameText")).getText().equals(connectionName)).findFirst();
+        Optional<Parent> item = connectionsListView.getItems().stream().filter(el -> ((Text) el.lookup("#nameText")).getText().equals(connectionName)).findFirst();
 
         if(item.isEmpty()) {
             logger.error("Could not find the connection inside the ListView");
@@ -117,7 +131,7 @@ public class ConnectionsController {
     public void deleteConnection(UUID connectionId) {
         String connectionName = connections.get(connectionId).name();
         connections.remove(connectionId);
-        listView.getItems().removeIf(hBox -> ((Text) hBox.lookup("#nameText")).getText().equals(connectionName));
+        connectionsListView.getItems().removeIf(hBox -> ((Text) hBox.lookup("#nameText")).getText().equals(connectionName));
         dumpConnections();
         logger.info("Removed connection: " + connectionName);
     }

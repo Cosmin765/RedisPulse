@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.shape.Circle?>
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.redispulse.controller.KeyController">
+    <Label fx:id="keyLabel" />
+    <Region HBox.hgrow="always" />
+    <StackPane>
+        <Circle fx:id="bubble" radius="10"/>
+        <Text fx:id="letterText" style="-fx-fill: white; -fx-font-weight: bold;" />
+    </StackPane>
+</HBox>

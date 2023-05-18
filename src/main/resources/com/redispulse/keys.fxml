@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Label?>
+<VBox prefWidth="200" xmlns:fx="http://javafx.com/fxml" alignment="CENTER" fx:controller="com.redispulse.controller.KeysController">
+    <Label text="Keys" />
+    <VBox VBox.vgrow="ALWAYS">
+        <ListView fx:id="keysListView" VBox.vgrow="ALWAYS">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                </FXCollections>
+            </items>
+        </ListView>
+    </VBox>
+</VBox>
