@@ -114,7 +114,7 @@ public class ConnectionController {
                 return;
             }
 
-            KeyData keyData = new KeyData(key, keyType);
+            KeyData keyData = new KeyData(key, keyType, jedis);
             keysController.addKey(keyData);
         }
     }

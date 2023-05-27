@@ -14,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,6 +33,7 @@ public class ConnectionsController {
     private final Map<UUID, ConnectionData> connections = new LinkedHashMap<>();
     private final Logger logger = LogManager.getLogger(ConnectionsController.class);
     private KeysController keysController;
+    private OperationsController operationsController;
 
     @FXML
     private void initialize() {
@@ -48,6 +48,12 @@ public class ConnectionsController {
         }
         loadConnections();
     }
+
+    public void setOperationsController(OperationsController operationsController) {
+        this.operationsController = operationsController;
+        keysController.operationsController = operationsController;
+    }
+
     private void loadConnections() {
         File connectionsFile = new File(Config.CONNECTIONS_JSON_FILE);
         if(!connectionsFile.isFile()) {
