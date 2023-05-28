@@ -62,7 +62,6 @@ public class SetOperations
         ScanResult<String> scanResult = jedis.sscan(key, cursor, scanParams);
 
         cursor = scanResult.getCursor();
-
         List<String> result = scanResult.getResult();
 
         if(start > 0) {

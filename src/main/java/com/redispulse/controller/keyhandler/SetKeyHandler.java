@@ -34,7 +34,7 @@ public class SetKeyHandler extends KeyHandler {
             }
             seen.add(item);
             if(index < 10) {
-                System.out.println(item);
+//                System.out.println(item);
             }
             index++;
         }
