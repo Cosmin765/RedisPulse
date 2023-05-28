@@ -5,6 +5,7 @@ module com.redispulse.redispulse {
     requires lombok;
     requires log4j.api;
     requires redis.clients.jedis;
+    requires java.compiler;
 
 
     opens com.redispulse to javafx.fxml;
@@ -12,5 +13,6 @@ module com.redispulse.redispulse {
     exports com.redispulse;
     exports com.redispulse.controller;
     exports com.redispulse.util;
+    exports com.redispulse.operations.base;
     opens com.redispulse.controller to javafx.fxml;
 }

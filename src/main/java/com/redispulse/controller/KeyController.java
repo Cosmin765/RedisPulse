@@ -1,5 +1,6 @@
 package com.redispulse.controller;
 
+import com.redispulse.controller.keyhandler.*;
 import com.redispulse.operations.ListOperations;
 import com.redispulse.util.KeyData;
 import com.redispulse.util.KeyType;
@@ -26,6 +27,7 @@ public class KeyController {
     private Circle bubble;
     private KeyData keyData;
     public OperationsController operationsController;
+    private KeyHandler keyHandler;
 //    private KeyData keyData;
 
     public KeyController() {
@@ -36,8 +38,30 @@ public class KeyController {
         typeToData.put(KeyType.LIST, new Pair<>(Color.ORANGE, "L"));
     }
 
+    private KeyHandler getKeyHandler(KeyData keyData) {
+        switch (keyData.type()) {
+            case LIST -> {
+                return new ListKeyHandler(keyData);
+            }
+            case SET -> {
+                return new SetKeyHandler(keyData);
+            }
+            case ZSET -> {
+                return new SortedSetHandler(keyData);
+            }
+            case STRING -> {
+                return new StringKeyHandler(keyData);
+            }
+            case DICTIONARY -> {
+                return new DictionaryKeyHandler(keyData);
+            }
+        }
+        throw new RuntimeException(keyData.type() + " not handled.");
+    }
+
     public void setKeyData(KeyData keyData) {
         this.keyData = keyData;
+        this.keyHandler = this.getKeyHandler(keyData);
 
         Pair<Color, String> renderData = typeToData.get(keyData.type());
         if(renderData == null) {
@@ -55,41 +79,13 @@ public class KeyController {
     }
 
     private void handleSelect() {
-        operationsController.valueText.setText(keyData.name());
+        operationsController.valueContainer.getChildren().clear();
 
-        if(keyData.type() == KeyType.LIST) {
-            ListOperations listOperations = new ListOperations();
-            listOperations.setKey(keyData.name());
-            listOperations.setJedis(keyData.connection());
+        Text text = new Text();
+        text.setText(keyData.name());
+        operationsController.valueContainer.getChildren().add(text);
 
-            System.out.println(keyData.name());
-
-//            listOperations.remove();
-//            for(int j = 0; j < 1000; ++j) {
-//                List<String> items = new ArrayList<>();
-//                for(int i = 0; i < 1000; ++i) {
-//                    items.add(Integer.toString(i));
-//                }
-//                System.out.println(j);
-//                listOperations.pushMultiple(items);
-//            }
-//            System.out.println("saved");
-            long index = 0;
-            long start = System.nanoTime();
-            for(String item : listOperations.get()) {
-//                if(index > 100_000) {
-//                    break;
-//                }
-                index++;
-            }
-            long end = System.nanoTime();
-
-            long delta = end - start;
-            System.out.println((float)delta / 1_000_000);
-
-            System.out.println(index);
-        }
-
+        keyHandler.handleSelect();
     }
 
     @FXML

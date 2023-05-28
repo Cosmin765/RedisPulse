@@ -1,15 +1,16 @@
 package com.redispulse.util;
 
+import com.redispulse.operations.base.BufferedOperations;
+
 import java.util.Iterator;
-import java.util.function.Function;
 
 public class RedisIterable<T> implements Iterable<T> {
-    private final Function<Long, T> nextSupplier;
+    private final BufferedOperations<T> operations;
     private boolean updated = false;
     private T nextItem = null;
     private long index = 0;
-    public RedisIterable(Function<Long, T> nextSupplier) {
-        this.nextSupplier = nextSupplier;
+    public RedisIterable(BufferedOperations<T> operations) {
+        this.operations = operations;
     }
     @Override
     public Iterator<T> iterator() {
@@ -21,7 +22,7 @@ public class RedisIterable<T> implements Iterable<T> {
         public boolean hasNext() {
             if(!updated) {
                 updated = true;
-                nextItem = nextSupplier.apply(index++);
+                nextItem = operations.nextSupplier(index++);
             }
             return nextItem != null;
         }
@@ -29,7 +30,7 @@ public class RedisIterable<T> implements Iterable<T> {
         @Override
         public T next() {
             if(!updated) {
-                return nextSupplier.apply(index++);
+                return operations.nextSupplier(index++);
             }
             updated = false;
             return nextItem;

@@ -7,7 +7,6 @@ import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 public class MainFrameController implements Initializable {
     @FXML
     private HBox connections;

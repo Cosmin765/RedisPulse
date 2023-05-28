@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Text?>
 <VBox prefWidth="200" xmlns:fx="http://javafx.com/fxml" alignment="CENTER" fx:controller="com.redispulse.controller.OperationsController">
     <Label text="Operations" />
-    <VBox VBox.vgrow="ALWAYS">
-        <Text fx:id="valueText" />
+    <VBox VBox.vgrow="ALWAYS" style="-fx-background-color: red; -fx-padding: 10;">
+        <HBox fx:id="valueContainer" />
     </VBox>
 </VBox>
