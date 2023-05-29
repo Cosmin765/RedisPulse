@@ -1,6 +1,7 @@
 package com.redispulse.controller.keyhandler;
 
 import com.redispulse.operations.SortedSetOperations;
+import com.redispulse.operations.base.OrderedIterableOperations;
 import com.redispulse.util.KeyData;
 import redis.clients.jedis.resps.Tuple;
 
@@ -8,11 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SortedSetHandler extends KeyHandler {
-    private final SortedSetOperations sortedSetOperations = new SortedSetOperations();
+    private final OrderedIterableOperations<Tuple> operations;
     public SortedSetHandler(KeyData keyData) {
         super(keyData);
-        sortedSetOperations.setKey(keyData.name());
-        sortedSetOperations.setJedis(keyData.connection());
+        operations = new SortedSetOperations(keyData.name(), keyData.connection());
     }
 
     @Override
@@ -21,9 +21,9 @@ public class SortedSetHandler extends KeyHandler {
         for(int i = 0; i < 20_000; ++i) {
             items.add(new Tuple(Integer.toString(i), (double)i));
         }
-        sortedSetOperations.assign(items);
+        operations.assign(items);
 
-        for(Tuple item : sortedSetOperations.getRange(23, 51)) {
+        for(Tuple item : operations.getRange(23, 51)) {
             System.out.println(item);
         }
     }

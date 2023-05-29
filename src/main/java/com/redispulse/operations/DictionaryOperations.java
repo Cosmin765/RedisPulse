@@ -4,6 +4,7 @@ import com.redispulse.operations.base.BufferedOperations;
 import com.redispulse.operations.base.IterableOperations;
 import com.redispulse.util.RedisConnection;
 import com.redispulse.util.RedisIterable;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
 
@@ -22,6 +23,10 @@ public class DictionaryOperations
     private boolean started = false;
     private int actualIndex = 0;
     private String cursor = ScanParams.SCAN_POINTER_START;
+
+    public DictionaryOperations(String key, Jedis jedis) {
+        super(key, jedis);
+    }
 
     @Override
     public Iterable<Map.Entry<String, String>> read() {

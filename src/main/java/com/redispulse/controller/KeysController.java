@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.ListView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
 
@@ -16,8 +15,12 @@ public class KeysController {
     private final Logger logger = LogManager.getLogger(ConnectionsController.class);
     @FXML
     private ListView<Parent> keysListView;
-    public OperationsController operationsController;
+    private OperationsController operationsController;
 //    private final List<KeyData> keysData = new ArrayList<>();
+
+    public void setOperationsController(OperationsController operationsController) {
+        this.operationsController = operationsController;
+    }
 
     public void addKey(KeyData keyData) {
 //        keysData.add(keyData);
@@ -27,7 +30,7 @@ public class KeysController {
             Parent newItem = fxmlLoader.load();
             keysListView.getItems().add(newItem);
             KeyController keyController = fxmlLoader.getController();
-            keyController.operationsController = operationsController;
+            keyController.setOperationsController(operationsController);
             keyController.setKeyData(keyData);
         } catch (IOException e) {
             logger.info("Error while loading the key template", e);

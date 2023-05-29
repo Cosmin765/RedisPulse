@@ -4,6 +4,7 @@ import com.redispulse.operations.base.BufferedOperations;
 import com.redispulse.operations.base.OrderedIterableOperations;
 import com.redispulse.util.RedisConnection;
 import com.redispulse.util.RedisIterable;
+import redis.clients.jedis.Jedis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,10 @@ public class ListOperations
     private int iterationCount = 0;
     private long start;
     private long end;
+
+    public ListOperations(String key, Jedis jedis) {
+        super(key, jedis);
+    }
 
     @Override
     public Iterable<String> read() {

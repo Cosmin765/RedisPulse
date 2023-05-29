@@ -1,17 +1,17 @@
 package com.redispulse.controller.keyhandler;
 
 import com.redispulse.operations.ListOperations;
+import com.redispulse.operations.base.OrderedIterableOperations;
 import com.redispulse.util.KeyData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListKeyHandler extends KeyHandler {
-    private final ListOperations listOperations = new ListOperations();
+    private final OrderedIterableOperations<String> operations;
     public ListKeyHandler(KeyData keyData) {
         super(keyData);
-        listOperations.setKey(keyData.name());
-        listOperations.setJedis(keyData.connection());
+        operations = new ListOperations(keyData.name(), keyData.connection());
     }
 
     @Override
@@ -22,11 +22,11 @@ public class ListKeyHandler extends KeyHandler {
         for(int i = 0; i < 1000; ++i) {
             items.add(Integer.toString(i));
         }
-        listOperations.assign(items);
+        operations.assign(items);
         System.out.println("saved");
         long index = 0;
         long start = System.nanoTime();
-        for(String item : listOperations.read()) {
+        for(String item : operations.read()) {
             index++;
         }
         long end = System.nanoTime();

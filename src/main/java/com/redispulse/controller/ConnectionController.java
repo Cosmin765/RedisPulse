@@ -22,7 +22,6 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -36,17 +35,8 @@ public class ConnectionController {
     private ContextMenu contextMenu;
     private ConnectionsController connectionsController;
     private KeysController keysController;
-    private final Map<String, KeyType> typeStrToEnum;
     private final Logger logger = LogManager.getLogger(ConnectionsController.class);
 
-    public ConnectionController() {
-        typeStrToEnum = new HashMap<>();
-        typeStrToEnum.put("string", KeyType.STRING);
-        typeStrToEnum.put("hash", KeyType.DICTIONARY);
-        typeStrToEnum.put("zset", KeyType.ZSET);
-        typeStrToEnum.put("set", KeyType.SET);
-        typeStrToEnum.put("list", KeyType.LIST);
-    }
     public void setKeysController(KeysController keysController) {
         this.keysController = keysController;
     }
@@ -105,12 +95,12 @@ public class ConnectionController {
 
         keysController.clearKeys();
         for(String key : jedis.keys("*")) {
-            String keyTypeString = jedis.type(key);
+            String type = jedis.type(key);
 
-            KeyType keyType = typeStrToEnum.get(keyTypeString);
+            KeyType keyType = KeyType.fromString(type);
 
             if(keyType == null) {
-                logger.error(keyTypeString + " is not implemented");
+                logger.error(type + " is not implemented");
                 return;
             }
 

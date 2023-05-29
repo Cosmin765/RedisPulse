@@ -1,7 +1,6 @@
 package com.redispulse.controller;
 
 import com.redispulse.controller.keyhandler.*;
-import com.redispulse.operations.ListOperations;
 import com.redispulse.util.KeyData;
 import com.redispulse.util.KeyType;
 import javafx.fxml.FXML;
@@ -26,9 +25,8 @@ public class KeyController {
     @FXML
     private Circle bubble;
     private KeyData keyData;
-    public OperationsController operationsController;
+    private OperationsController operationsController;
     private KeyHandler keyHandler;
-//    private KeyData keyData;
 
     public KeyController() {
         typeToData.put(KeyType.DICTIONARY, new Pair<>(Color.RED, "D"));
@@ -36,6 +34,10 @@ public class KeyController {
         typeToData.put(KeyType.ZSET, new Pair<>(Color.PURPLE, "Z"));
         typeToData.put(KeyType.SET, new Pair<>(Color.BLUE, "S"));
         typeToData.put(KeyType.LIST, new Pair<>(Color.ORANGE, "L"));
+    }
+
+    public void setOperationsController(OperationsController operationsController) {
+        this.operationsController = operationsController;
     }
 
     private KeyHandler getKeyHandler(KeyData keyData) {
@@ -61,7 +63,8 @@ public class KeyController {
 
     public void setKeyData(KeyData keyData) {
         this.keyData = keyData;
-        this.keyHandler = this.getKeyHandler(keyData);
+        keyHandler = this.getKeyHandler(keyData);
+        keyHandler.setOperationsController(operationsController);
 
         Pair<Color, String> renderData = typeToData.get(keyData.type());
         if(renderData == null) {
@@ -79,11 +82,7 @@ public class KeyController {
     }
 
     private void handleSelect() {
-        operationsController.valueContainer.getChildren().clear();
-
-        Text text = new Text();
-        text.setText(keyData.name());
-        operationsController.valueContainer.getChildren().add(text);
+        operationsController.titleText.setText(keyData.name());
 
         keyHandler.handleSelect();
     }

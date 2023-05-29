@@ -33,7 +33,6 @@ public class ConnectionsController {
     private final Map<UUID, ConnectionData> connections = new LinkedHashMap<>();
     private final Logger logger = LogManager.getLogger(ConnectionsController.class);
     private KeysController keysController;
-    private OperationsController operationsController;
 
     @FXML
     private void initialize() {
@@ -50,8 +49,7 @@ public class ConnectionsController {
     }
 
     public void setOperationsController(OperationsController operationsController) {
-        this.operationsController = operationsController;
-        keysController.operationsController = operationsController;
+        keysController.setOperationsController(operationsController);
     }
 
     private void loadConnections() {

@@ -4,6 +4,7 @@ import com.redispulse.operations.base.BufferedOperations;
 import com.redispulse.operations.base.OrderedIterableOperations;
 import com.redispulse.util.RedisConnection;
 import com.redispulse.util.RedisIterable;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.resps.Tuple;
 
 import java.util.ArrayList;
@@ -20,6 +21,10 @@ public class SortedSetOperations
     private long start;
     private long end;
     private int actualIndex = 0;
+
+    public SortedSetOperations(String key, Jedis jedis) {
+        super(key, jedis);
+    }
 
     @Override
     public Iterable<Tuple> read() {
@@ -90,11 +95,14 @@ public class SortedSetOperations
 
     @Override
     public Tuple nextSupplier(long index) {
+        if(index > end) {
+            return null;
+        }
         if(start + index > (long) BUFFER_SIZE * (iterationCount + 1)) {
             iterationCount++;
             retrieveItems();
         }
-        return index <= end && actualIndex < buffer.size() ? buffer.get(actualIndex++) : null;
+        return actualIndex < buffer.size() ? buffer.get(actualIndex++) : null;
     }
 
     @Override
