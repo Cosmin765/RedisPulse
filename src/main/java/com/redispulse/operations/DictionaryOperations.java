@@ -4,7 +4,6 @@ import com.redispulse.operations.base.BufferedOperations;
 import com.redispulse.operations.base.IterableOperations;
 import com.redispulse.util.RedisConnection;
 import com.redispulse.util.RedisIterable;
-import javafx.util.Pair;
 import redis.clients.jedis.params.ScanParams;
 import redis.clients.jedis.resps.ScanResult;
 
@@ -15,9 +14,9 @@ import java.util.Map;
 
 public class DictionaryOperations
     extends RedisConnection
-    implements IterableOperations<Pair<String, String>>, BufferedOperations<Pair<String, String>> {
+    implements IterableOperations<Map.Entry<String, String>>, BufferedOperations<Map.Entry<String, String>> {
 
-    private List<Pair<String, String>> buffer = new ArrayList<>();
+    private List<Map.Entry<String, String>> buffer = new ArrayList<>();
     private long start;
     private long end;
     private boolean started = false;
@@ -25,12 +24,12 @@ public class DictionaryOperations
     private String cursor = ScanParams.SCAN_POINTER_START;
 
     @Override
-    public Iterable<Pair<String, String>> read() {
+    public Iterable<Map.Entry<String, String>> read() {
         return getRange(0, -1);
     }
 
     @Override
-    public void assign(Iterable<Pair<String, String>> value) {
+    public void assign(Iterable<Map.Entry<String, String>> value) {
         remove();
         pushMultiple(value);
     }
@@ -41,7 +40,7 @@ public class DictionaryOperations
     }
 
     @Override
-    public Iterable<Pair<String, String>> getRange(long start, long end) {
+    public Iterable<Map.Entry<String, String>> getRange(long start, long end) {
         this.started = false;
         this.start = start;
         this.end = end == -1 ? Long.MAX_VALUE : end - start;
@@ -51,12 +50,12 @@ public class DictionaryOperations
     }
 
     @Override
-    public void push(Pair<String, String> item) {
+    public void push(Map.Entry<String, String> item) {
         jedis.hset(key, item.getKey(), item.getValue());
     }
 
     @Override
-    public Pair<String, String> pop() {
+    public Map.Entry<String, String> pop() {
         ScanParams scanParams = new ScanParams().count(1);
         ScanResult<Map.Entry<String, String>> scanResult = jedis.hscan(key, ScanParams.SCAN_POINTER_START, scanParams);
 
@@ -66,16 +65,17 @@ public class DictionaryOperations
             return null;
         }
 
-        Pair<String, String> item = new Pair<>(result.get(0).getKey(), result.get(0).getValue());
+        Map.Entry<String, String> item = result.get(0);
+
         jedis.hdel(key, item.getKey());
         return item;
     }
 
     @Override
-    public void pushMultiple(Iterable<Pair<String, String>> items) {
+    public void pushMultiple(Iterable<Map.Entry<String, String>> items) {
         Map<String, String> buffer = new HashMap<>();
 
-        for(Pair<String, String> pair : items) {
+        for(Map.Entry<String, String> pair : items) {
             if(buffer.size() >= BUFFER_SIZE) {
                 pushMultiple(buffer);
                 buffer.clear();
@@ -85,6 +85,7 @@ public class DictionaryOperations
 
         if(buffer.size() > 0) {
             pushMultiple(buffer);
+            buffer.clear();
         }
     }
 
@@ -93,7 +94,7 @@ public class DictionaryOperations
     }
 
     @Override
-    public Pair<String, String> nextSupplier(long index) {
+    public Map.Entry<String, String> nextSupplier(long index) {
         if(index > end) {
             return null;
         }
@@ -132,7 +133,7 @@ public class DictionaryOperations
             start = 0;
         }
 
-        buffer = result.stream().map(e -> new Pair<>(e.getKey(), e.getValue())).toList();
+        buffer = result;
         actualIndex = 0;
     }
 }

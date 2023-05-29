@@ -2,7 +2,7 @@ package com.redispulse.controller.keyhandler;
 
 import com.redispulse.operations.SortedSetOperations;
 import com.redispulse.util.KeyData;
-import javafx.util.Pair;
+import redis.clients.jedis.resps.Tuple;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +17,13 @@ public class SortedSetHandler extends KeyHandler {
 
     @Override
     public void handleSelect() {
-        List<Pair<Double, String>> items = new ArrayList<>();
+        List<Tuple> items = new ArrayList<>();
         for(int i = 0; i < 20_000; ++i) {
-            items.add(new Pair<>((double)i, Integer.toString(i)));
+            items.add(new Tuple(Integer.toString(i), (double)i));
         }
         sortedSetOperations.assign(items);
 
-        for(Pair<Double, String> item : sortedSetOperations.getRange(23, 51)) {
+        for(Tuple item : sortedSetOperations.getRange(23, 51)) {
             System.out.println(item);
         }
     }

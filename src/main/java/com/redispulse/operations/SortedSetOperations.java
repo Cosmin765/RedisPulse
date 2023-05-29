@@ -4,7 +4,6 @@ import com.redispulse.operations.base.BufferedOperations;
 import com.redispulse.operations.base.OrderedIterableOperations;
 import com.redispulse.util.RedisConnection;
 import com.redispulse.util.RedisIterable;
-import javafx.util.Pair;
 import redis.clients.jedis.resps.Tuple;
 
 import java.util.ArrayList;
@@ -14,21 +13,21 @@ import java.util.Map;
 
 public class SortedSetOperations
     extends RedisConnection
-    implements OrderedIterableOperations<Pair<Double, String>>, BufferedOperations<Pair<Double, String>> {
+    implements OrderedIterableOperations<Tuple>, BufferedOperations<Tuple> {
 
-    private List<Pair<Double, String>> buffer = new ArrayList<>();
+    private List<Tuple> buffer = new ArrayList<>();
     private int iterationCount = 0;
     private long start;
     private long end;
     private int actualIndex = 0;
 
     @Override
-    public Iterable<Pair<Double, String>> read() {
+    public Iterable<Tuple> read() {
         return getRange(0, -1);
     }
 
     @Override
-    public void assign(Iterable<Pair<Double, String>> value) {
+    public void assign(Iterable<Tuple> value) {
         remove();
         pushMultiple(value);
     }
@@ -39,7 +38,7 @@ public class SortedSetOperations
     }
 
     @Override
-    public Iterable<Pair<Double, String>> getRange(long start, long end) {
+    public Iterable<Tuple> getRange(long start, long end) {
         this.start = start;
         this.end = end == -1 ? Long.MAX_VALUE : end - start;
         iterationCount = 0;
@@ -48,30 +47,30 @@ public class SortedSetOperations
     }
 
     @Override
-    public void push(Pair<Double, String> item) {
-        jedis.zadd(key, item.getKey(), item.getValue());
+    public void push(Tuple item) {
+        jedis.zadd(key, item.getScore(), item.getElement());
     }
 
     @Override
-    public Pair<Double, String> pop() {
-        Tuple item = jedis.zpopmax(key);
-        return new Pair<>(item.getScore(), item.getElement());
+    public Tuple pop() {
+        return jedis.zpopmax(key);
     }
 
     @Override
-    public void pushMultiple(Iterable<Pair<Double, String>> items) {
+    public void pushMultiple(Iterable<Tuple> items) {
         Map<String, Double> buffer = new HashMap<>();
 
-        for(Pair<Double, String> pair : items) {
+        for(Tuple pair : items) {
             if(buffer.size() >= BUFFER_SIZE) {
                 pushMultiple(buffer);
                 buffer.clear();
             }
-            buffer.put(pair.getValue(), pair.getKey());
+            buffer.put(pair.getElement(), pair.getScore());
         }
 
         if(buffer.size() > 0) {
             pushMultiple(buffer);
+            buffer.clear();
         }
     }
 
@@ -80,18 +79,17 @@ public class SortedSetOperations
     }
 
     @Override
-    public void pushBack(Pair<Double, String> item) {
+    public void pushBack(Tuple item) {
         push(item);
     }
 
     @Override
-    public Pair<Double, String> popBack() {
-        Tuple item = jedis.zpopmin(key);
-        return new Pair<>(item.getScore(), item.getElement());
+    public Tuple popBack() {
+        return jedis.zpopmin(key);
     }
 
     @Override
-    public Pair<Double, String> nextSupplier(long index) {
+    public Tuple nextSupplier(long index) {
         if(start + index > (long) BUFFER_SIZE * (iterationCount + 1)) {
             iterationCount++;
             retrieveItems();
@@ -103,8 +101,7 @@ public class SortedSetOperations
     public void retrieveItems() {
         long localStart = start + (long) iterationCount * BUFFER_SIZE;
         long localEnd = start + (long) (iterationCount + 1) * BUFFER_SIZE;
-        buffer = jedis.zrangeWithScores(key, localStart, localEnd).stream().map(t ->
-                new Pair<>(t.getScore(), t.getElement())).toList();
+        buffer = jedis.zrangeWithScores(key, localStart, localEnd);
         actualIndex = 0;
     }
 }
