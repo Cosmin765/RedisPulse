@@ -23,12 +23,12 @@ public class SortedSetOperations
     private int actualIndex = 0;
 
     @Override
-    public Iterable<Pair<Double, String>> get() {
+    public Iterable<Pair<Double, String>> read() {
         return getRange(0, -1);
     }
 
     @Override
-    public void set(Iterable<Pair<Double, String>> value) {
+    public void assign(Iterable<Pair<Double, String>> value) {
         remove();
         pushMultiple(value);
     }

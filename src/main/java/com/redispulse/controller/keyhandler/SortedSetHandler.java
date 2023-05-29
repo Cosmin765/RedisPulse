@@ -21,7 +21,7 @@ public class SortedSetHandler extends KeyHandler {
         for(int i = 0; i < 20_000; ++i) {
             items.add(new Pair<>((double)i, Integer.toString(i)));
         }
-        sortedSetOperations.set(items);
+        sortedSetOperations.assign(items);
 
         for(Pair<Double, String> item : sortedSetOperations.getRange(23, 51)) {
             System.out.println(item);

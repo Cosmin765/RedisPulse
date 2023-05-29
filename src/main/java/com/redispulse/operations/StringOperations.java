@@ -5,12 +5,12 @@ import com.redispulse.util.RedisConnection;
 
 public class StringOperations extends RedisConnection implements BasicOperations<String> {
     @Override
-    public String get() {
+    public String read() {
         return jedis.get(key);
     }
 
     @Override
-    public void set(String value) {
+    public void assign(String value) {
         jedis.set(key, value);
     }
 

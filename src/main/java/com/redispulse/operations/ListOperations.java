@@ -18,12 +18,12 @@ public class ListOperations
     private long end;
 
     @Override
-    public Iterable<String> get() {
+    public Iterable<String> read() {
         return getRange(0, -1);
     }
 
     @Override
-    public void set(Iterable<String> value) {
+    public void assign(Iterable<String> value) {
         remove();
         pushMultiple(value);
     }

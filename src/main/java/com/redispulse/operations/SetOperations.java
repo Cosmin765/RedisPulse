@@ -21,12 +21,12 @@ public class SetOperations
     private int actualIndex = 0;
     private String cursor = ScanParams.SCAN_POINTER_START;
     @Override
-    public Iterable<String> get() {
+    public Iterable<String> read() {
         return getRange(0, -1);
     }
 
     @Override
-    public void set(Iterable<String> value) {
+    public void assign(Iterable<String> value) {
         remove();
         pushMultiple(value);
     }
@@ -85,6 +85,7 @@ public class SetOperations
         this.started = false;
         this.start = start;
         this.end = end == -1 ? Long.MAX_VALUE : end - start;
+        cursor = ScanParams.SCAN_POINTER_START;
         retrieveItems();
         return new RedisIterable<>(this);
     }

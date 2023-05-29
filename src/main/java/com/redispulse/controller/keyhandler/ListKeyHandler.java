@@ -22,11 +22,11 @@ public class ListKeyHandler extends KeyHandler {
         for(int i = 0; i < 1000; ++i) {
             items.add(Integer.toString(i));
         }
-        listOperations.set(items);
+        listOperations.assign(items);
         System.out.println("saved");
         long index = 0;
         long start = System.nanoTime();
-        for(String item : listOperations.get()) {
+        for(String item : listOperations.read()) {
             index++;
         }
         long end = System.nanoTime();

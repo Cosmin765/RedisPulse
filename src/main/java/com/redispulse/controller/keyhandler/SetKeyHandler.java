@@ -23,7 +23,7 @@ public class SetKeyHandler extends KeyHandler {
         for(int i = 0; i < 20_000; ++i) {
             items.add(Integer.toString(i));
         }
-        setOperations.set(items);
+        setOperations.assign(items);
 
         Set<String> seen = new HashSet<>();
 
