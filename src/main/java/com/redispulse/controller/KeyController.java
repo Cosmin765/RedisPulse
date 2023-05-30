@@ -81,7 +81,7 @@ public class KeyController {
         letterText.setText(letter);
     }
 
-    private void handleSelect() {
+    public void handleSelect() {
         operationsController.titleText.setText(keyData.name());
 
         keyHandler.handleSelect();

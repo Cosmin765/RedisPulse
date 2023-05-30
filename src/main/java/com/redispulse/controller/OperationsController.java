@@ -1,9 +1,9 @@
 package com.redispulse.controller;
 
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class OperationsController {
-    public HBox valueContainer;
+    public VBox valueContainer;
     public Text titleText;
 }

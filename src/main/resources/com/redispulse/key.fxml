@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.shape.Circle?>
-<HBox xmlns:fx="http://javafx.com/fxml" onMouseClicked="#onKeyClick" fx:controller="com.redispulse.controller.KeyController">
+<HBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.redispulse.controller.KeyController">
     <Label fx:id="keyLabel" />
     <Region HBox.hgrow="always" />
     <StackPane>

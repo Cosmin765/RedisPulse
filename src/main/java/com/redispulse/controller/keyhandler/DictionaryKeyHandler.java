@@ -15,14 +15,14 @@ public class DictionaryKeyHandler extends KeyHandler {
 
     @Override
     public void handleSelect() {
-        List<Map.Entry<String, String>> items = new ArrayList<>();
-        for(int i = 0; i < 20_000; ++i) {
-            Map.Entry<String, String> item = new AbstractMap.SimpleEntry<>(Integer.toString(i), Integer.toString(i));
-            items.add(item);
-        }
-        operations.assign(items);
-
-        System.out.println("-------------------");
+//        List<Map.Entry<String, String>> items = new ArrayList<>();
+//        for(int i = 0; i < 20_000; ++i) {
+//            Map.Entry<String, String> item = new AbstractMap.SimpleEntry<>(Integer.toString(i), Integer.toString(i));
+//            items.add(item);
+//        }
+//        operations.assign(items);
+//
+//        System.out.println("-------------------");
 
 //        Set<Map.Entry<String, String>> seen = new HashSet<>();
 

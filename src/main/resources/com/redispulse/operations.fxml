@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.text.Text?>
+
 <VBox prefWidth="200" xmlns:fx="http://javafx.com/fxml" alignment="CENTER" fx:controller="com.redispulse.controller.OperationsController">
     <Label text="Operations" />
     <VBox VBox.vgrow="ALWAYS" style="-fx-padding: 10;">
         <Text fx:id="titleText"/>
-        <HBox fx:id="valueContainer" />
+
+        <VBox fx:id="valueContainer" />
     </VBox>
 </VBox>

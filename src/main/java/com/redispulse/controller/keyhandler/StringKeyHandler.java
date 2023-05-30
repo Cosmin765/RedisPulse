@@ -3,7 +3,7 @@ package com.redispulse.controller.keyhandler;
 import com.redispulse.operations.StringOperations;
 import com.redispulse.operations.base.BasicOperations;
 import com.redispulse.util.KeyData;
-import javafx.scene.text.Text;
+import javafx.scene.control.TextArea;
 
 public class StringKeyHandler extends KeyHandler {
     private final BasicOperations<String> operations;
@@ -14,8 +14,11 @@ public class StringKeyHandler extends KeyHandler {
 
     @Override
     public void handleSelect() {
-        Text value = new Text(operations.read());
         operationsController.valueContainer.getChildren().clear();
-        operationsController.valueContainer.getChildren().add(value);
+
+        TextArea textArea = new TextArea();
+        textArea.setWrapText(true);
+        textArea.setText(operations.read());
+        operationsController.valueContainer.getChildren().add(textArea);
     }
 }

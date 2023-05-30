@@ -3,12 +3,15 @@ package com.redispulse.controller.keyhandler;
 import com.redispulse.operations.ListOperations;
 import com.redispulse.operations.base.OrderedIterableOperations;
 import com.redispulse.util.KeyData;
-
-import java.util.ArrayList;
-import java.util.List;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 
 public class ListKeyHandler extends KeyHandler {
     private final OrderedIterableOperations<String> operations;
+    private TextArea textArea;
     public ListKeyHandler(KeyData keyData) {
         super(keyData);
         operations = new ListOperations(keyData.name(), keyData.connection());
@@ -16,24 +19,28 @@ public class ListKeyHandler extends KeyHandler {
 
     @Override
     public void handleSelect() {
-        System.out.println(keyData.name());
+        operationsController.valueContainer.getChildren().clear();
 
-        List<String> items = new ArrayList<>();
-        for(int i = 0; i < 1000; ++i) {
-            items.add(Integer.toString(i));
+        ListView<Text> listView = new ListView<>();
+        listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        listView.setPrefHeight(200);
+
+        listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                textArea.setText(newValue.getText());
+            }
+        });
+
+        for(String item : operations.getRange(0, 10)) {
+            Text element = new Text(item);
+
+
+            listView.getItems().add(element);
         }
-        operations.assign(items);
-        System.out.println("saved");
-        long index = 0;
-        long start = System.nanoTime();
-        for(String item : operations.read()) {
-            index++;
-        }
-        long end = System.nanoTime();
+        operationsController.valueContainer.getChildren().add(listView);
 
-        long delta = end - start;
-        System.out.println((float)delta / 1_000_000);
-
-        System.out.println(index);
+        textArea = new TextArea();
+        textArea.setWrapText(true);
+        operationsController.valueContainer.getChildren().add(textArea);
     }
 }
