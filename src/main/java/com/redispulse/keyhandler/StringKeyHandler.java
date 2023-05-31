@@ -1,7 +1,6 @@
 package com.redispulse.keyhandler;
 
 import com.redispulse.operations.StringOperations;
-import com.redispulse.operations.base.BasicOperations;
 import com.redispulse.util.KeyData;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
