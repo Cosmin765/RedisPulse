@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -55,6 +54,8 @@ public class ConnectionController {
 
         Map<String, EventHandler<ActionEvent>> optionData = new LinkedHashMap<>();
         optionData.put("Edit", this::handleOptionEdit);
+        optionData.put("Reload", this::handleOptionReload);
+        optionData.put("Disconnect", this::handleOptionDisconnect);
         optionData.put("Delete", this::handleOptionDelete);
 
         for(String optionText : optionData.keySet()) {
@@ -102,6 +103,8 @@ public class ConnectionController {
             return;
         }
 
+        keysController.setConnection(jedis);
+
         keysController.clearKeys();
         for(String key : jedis.keys("*")) {
             String type = jedis.type(key);
@@ -139,7 +142,6 @@ public class ConnectionController {
         }
         return succeeded;
     }
-    @FXML
     private void handleOptionEdit(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(RedisPulseApplication.class.getResource("connection-popup.fxml"));
@@ -168,7 +170,6 @@ public class ConnectionController {
             logger.error("Error while creating the popup", e);
         }
     }
-    @FXML
     private void handleOptionDelete(ActionEvent event) {
         String connectionName = nameText.getText();
 
@@ -185,5 +186,11 @@ public class ConnectionController {
         if(result == ButtonType.OK) {
             connectionsController.deleteConnection(connectionData.id());
         }
+    }
+    private void handleOptionReload(ActionEvent ignored) {
+        handleSelect();
+    }
+    private void handleOptionDisconnect(ActionEvent ignored) {
+        keysController.delete();
     }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<VBox spacing="10" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER" fx:controller="com.redispulse.controller.KeyPopupController">
+    <HBox alignment="CENTER">
+        <Region prefWidth="20"/>
+        <Label text="Key name:" prefWidth="100" alignment="CENTER" />
+        <Region prefWidth="10"/>
+        <TextField fx:id="nameField" HBox.hgrow="ALWAYS" />
+        <Region prefWidth="20"/>
+    </HBox>
+    <HBox>
+        <Region prefWidth="20"/>
+        <Label text="Key type:" prefWidth="100" alignment="CENTER" />
+        <Region prefWidth="10"/>
+        <ComboBox fx:id="comboBox" value="STRING" HBox.hgrow="ALWAYS">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="STRING" />
+                    <String fx:value="LIST" />
+                    <String fx:value="DICTIONARY" />
+                    <String fx:value="SET" />
+                    <String fx:value="ZSET" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+        <Region prefWidth="20"/>
+    </HBox>
+
+    <HBox alignment="CENTER">
+        <Button text="Save" onAction="#onAddKeyPress"/>
+    </HBox>
+</VBox>

@@ -17,7 +17,7 @@
     </HBox>
     <HBox alignment="CENTER">
         <Region prefWidth="20"/>
-        <Label text="Address:" prefWidth="100"  alignment="CENTER" />
+        <Label text="Address:" prefWidth="100" alignment="CENTER" />
         <Region prefWidth="10"/>
         <TextField fx:id="addressField" HBox.hgrow="ALWAYS" promptText="127.0.0.1" />
         <Region prefWidth="20"/>

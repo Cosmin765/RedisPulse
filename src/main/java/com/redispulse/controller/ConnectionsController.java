@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -88,7 +89,9 @@ public class ConnectionsController {
         }
     }
     public boolean addNewConnection(ConnectionData connection) {
-        if(connections.values().stream().filter(c -> c.name().equals(connection.name())).toList().size() > 0) {
+        if(connections.values().stream()
+                .filter(c -> c.name().equals(connection.name()))
+                .toList().size() > 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("An error occurred");
@@ -105,8 +108,9 @@ public class ConnectionsController {
         return true;
     }
     public boolean editConnection(String connectionName, ConnectionData newConnection) {
-        if(connections.values().stream().filter(
-                c -> !c.id().equals(newConnection.id()) && c.name().equals(newConnection.name())).toList().size() > 0) {
+        if(connections.values().stream()
+                .filter(c -> !c.id().equals(newConnection.id()) && c.name().equals(newConnection.name()))
+                .toList().size() > 0) {
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -169,6 +173,11 @@ public class ConnectionsController {
             connectionPopupController.setPopupStage(popupStage);
 
             Scene scene = new Scene(root);
+            scene.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    popupStage.close();
+                }
+            });
             popupStage.setScene(scene);
 
             popupStage.showAndWait();

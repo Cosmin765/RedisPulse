@@ -14,7 +14,6 @@ public class ListKeyHandler extends KeyHandler {
     private ListView<Text> listView;
     private TextArea textArea;
     private boolean shouldScroll = false;
-    private boolean addNew = false;
     public ListKeyHandler(KeyData keyData) {
         super(keyData);
         operations = new ListOperations(keyData.name(), keyData.connection());
@@ -29,7 +28,6 @@ public class ListKeyHandler extends KeyHandler {
 
         listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                addNew = false;
                 textArea.setText(newValue.getText());
             }
         });
@@ -74,14 +72,10 @@ public class ListKeyHandler extends KeyHandler {
     private void onSavePressed() {
         String textAreaContent = textArea.getText();
 
-        if(addNew) {
-            operations.push(textAreaContent);
-            handleSelect();
-            return;
-        }
-
         int selectedIndex = listView.getSelectionModel().getSelectedIndex();
         if(selectedIndex == -1) {
+            operations.push(textAreaContent);
+            handleSelect();
             return;
         }
         operations.getJedis().lset(keyData.name(), selectedIndex, textAreaContent);
@@ -104,7 +98,6 @@ public class ListKeyHandler extends KeyHandler {
     private void onAddPressed() {
         textArea.clear();
         textArea.requestFocus();
-        addNew = true;
         listView.getSelectionModel().clearSelection();
     }
 

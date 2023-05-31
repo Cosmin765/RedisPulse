@@ -91,11 +91,6 @@ public class DictionaryKeyHandler extends KeyHandler {
     }
 
     private void onSavePressed() {
-        int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
-        if(selectedIndex == -1) {
-            return;
-        }
-
         String newKey = keyField.getText();
         String newValue = valueArea.getText();
 

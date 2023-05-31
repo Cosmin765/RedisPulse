@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
 <VBox prefWidth="200" xmlns:fx="http://javafx.com/fxml" alignment="CENTER" fx:controller="com.redispulse.controller.KeysController">
     <Label text="Keys" />
     <VBox VBox.vgrow="ALWAYS">
@@ -14,5 +15,11 @@
                 </FXCollections>
             </items>
         </ListView>
+
+        <Region prefHeight="20" />
+        <HBox alignment="CENTER">
+            <Button fx:id="addButton" text="Add new key" HBox.hgrow="NEVER" onAction="#onAddKeyPress" visible="false"/>
+        </HBox>
+        <Region prefHeight="20" />
     </VBox>
 </VBox>
