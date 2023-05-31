@@ -4,7 +4,9 @@ import com.redispulse.operations.base.BasicOperations;
 import com.redispulse.util.RedisConnection;
 import redis.clients.jedis.Jedis;
 
-public class StringOperations extends RedisConnection implements BasicOperations<String> {
+public class StringOperations
+        extends RedisConnection
+        implements BasicOperations<String> {
     public StringOperations(String key, Jedis jedis) {
         super(key, jedis);
     }

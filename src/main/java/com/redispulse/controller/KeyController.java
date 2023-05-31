@@ -5,9 +5,10 @@ import com.redispulse.util.KeyData;
 import com.redispulse.util.KeyType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -38,6 +39,12 @@ public class KeyController {
 
     public void setOperationsController(OperationsController operationsController) {
         this.operationsController = operationsController;
+    }
+
+    public void deleteKey() {
+        keyData.connection().del(keyData.name());
+        keyLabel.setTextFill(Color.GRAY);
+        keyLabel.setFont(Font.font("System", FontPosture.ITALIC, 12));
     }
 
     private KeyHandler getKeyHandler(KeyData keyData) {
@@ -79,23 +86,16 @@ public class KeyController {
         keyLabel.setText(keyName);
         bubble.setFill(bubbleColor);
         letterText.setText(letter);
+
+//         TODO: delete this hardcoding
+        if (keyData.name().equals("a")) {
+            this.handleSelect();
+        }
     }
 
     public void handleSelect() {
         operationsController.titleText.setText(keyData.name());
 
         keyHandler.handleSelect();
-    }
-
-    @FXML
-    private void onKeyClick(MouseEvent event) {
-        switch (event.getButton()) {
-            case PRIMARY -> handleSelect();
-//            case SECONDARY -> {
-//                if (event.getClickCount() == 1) {
-//                    contextMenu.show(ellipsis, event.getScreenX(), event.getScreenY());
-//                }
-//            }
-        }
     }
 }

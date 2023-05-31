@@ -1,46 +1,85 @@
 package com.redispulse.controller.keyhandler;
 
 import com.redispulse.operations.ListOperations;
-import com.redispulse.operations.base.OrderedIterableOperations;
 import com.redispulse.util.KeyData;
+import javafx.application.Platform;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 public class ListKeyHandler extends KeyHandler {
-    private final OrderedIterableOperations<String> operations;
+    private final ListOperations operations;
+    private ListView<Text> listView;
     private TextArea textArea;
+    private int selectedIndex = -1;
+    private boolean shouldScroll = false;
     public ListKeyHandler(KeyData keyData) {
         super(keyData);
         operations = new ListOperations(keyData.name(), keyData.connection());
     }
 
-    @Override
-    public void handleSelect() {
+    private void addValues() {
         operationsController.valueContainer.getChildren().clear();
 
-        ListView<Text> listView = new ListView<>();
+        listView = new ListView<>();
         listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         listView.setPrefHeight(200);
 
+        for(String item : operations.getRange(0, 50)) {
+            Text element = new Text(item);
+            listView.getItems().add(element);
+        }
+        operationsController.valueContainer.getChildren().add(listView);
+    }
+
+    private void addTextArea() {
+        textArea = new TextArea();
+        textArea.setWrapText(true);
+        operationsController.valueContainer.getChildren().add(textArea);
+
         listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
+                selectedIndex = listView.getSelectionModel().getSelectedIndex();
                 textArea.setText(newValue.getText());
             }
         });
 
-        for(String item : operations.getRange(0, 10)) {
-            Text element = new Text(item);
+        // scrolling event
+        listView.skinProperty().addListener((obs, oldSkin, newSkin) -> {
+            if(newSkin == null || !shouldScroll) {
+                return;
+            }
+            Platform.runLater(() -> {
+                listView.scrollTo(listView.getSelectionModel().getSelectedIndex());
+                shouldScroll = false;
+            });
+        });
+    }
 
+    private void addButtons() {
+        operationsController.controllersContainer.getChildren().clear();
+        Button saveButton = new Button("Save");
+        saveButton.setOnAction(event -> onSavePressed());
+        operationsController.controllersContainer.getChildren().add(saveButton);
+    }
 
-            listView.getItems().add(element);
+    private void onSavePressed() {
+        if(selectedIndex == -1) {
+            return;
         }
-        operationsController.valueContainer.getChildren().add(listView);
+        String textAreaContent = textArea.getText();
+        operations.getJedis().lset(keyData.name(), selectedIndex, textAreaContent);
+        handleSelect();  // reload the values
+        listView.getSelectionModel().select(selectedIndex);
+        shouldScroll = true;
+    }
 
-        textArea = new TextArea();
-        textArea.setWrapText(true);
-        operationsController.valueContainer.getChildren().add(textArea);
+    @Override
+    public void handleSelect() {
+        addValues();
+        addTextArea();
+        addButtons();
     }
 }

@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:6.0
+    ports:
+      - 6300:6379
+    volumes:
+      - C:\docker-data\redis-pulse:/data
+    container_name: redis-pulse
+    network_mode: bridge

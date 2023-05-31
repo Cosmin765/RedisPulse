@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -18,9 +19,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisClientConfig;
-import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 import java.io.IOException;
@@ -74,9 +75,15 @@ public class ConnectionController {
         if(jedis != null && jedis.isConnected()) {
             jedis.disconnect();
         }
-        jedis = new Jedis(connectionData.address(), connectionData.port());
+        int timeoutMillis = 20_000;
+        JedisClientConfig config = DefaultJedisClientConfig.builder()
+                .timeoutMillis(timeoutMillis)
+                .connectionTimeoutMillis(timeoutMillis)
+                .socketTimeoutMillis(timeoutMillis)
+                .build();
 
         try {
+            jedis = new Jedis(connectionData.address(), connectionData.port(), config);
             jedis.connect();
         } catch (JedisConnectionException e) {
             logger.error("Error while connecting to the redis server", e);

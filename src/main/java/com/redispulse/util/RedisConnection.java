@@ -18,4 +18,8 @@ public class RedisConnection {
     public void setKey(String key) {
         this.key = key;
     }
+
+    public Jedis getJedis() {
+        return jedis;
+    }
 }

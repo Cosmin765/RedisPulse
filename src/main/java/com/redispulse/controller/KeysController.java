@@ -6,8 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.MenuItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -50,9 +51,31 @@ public class KeysController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         keysListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                controllers.get(newValue).handleSelect();
+            if(newValue == null) {
+                return;
             }
+            controllers.get(newValue).handleSelect();
+        });
+
+        keysListView.setOnContextMenuRequested(event -> {
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem reloadOption = new MenuItem("Reload");
+            MenuItem deleteOption = new MenuItem("Delete");
+
+            reloadOption.setOnAction(e -> {
+                int selectedIndex = keysListView.getSelectionModel().getSelectedIndex();
+                Parent selectedElement = keysListView.getItems().get(selectedIndex);
+                controllers.get(selectedElement).handleSelect();
+            });
+
+            deleteOption.setOnAction(e -> {
+                int selectedIndex = keysListView.getSelectionModel().getSelectedIndex();
+                Parent selectedElement = keysListView.getItems().get(selectedIndex);
+                controllers.get(selectedElement).deleteKey();
+            });
+
+            contextMenu.getItems().addAll(reloadOption, deleteOption);
+            contextMenu.show(keysListView, event.getScreenX(), event.getScreenY());
         });
     }
 }
