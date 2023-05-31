@@ -92,11 +92,6 @@ public class KeyController implements Initializable {
         keyLabel.setText(keyName);
         bubble.setFill(bubbleColor);
         letterText.setText(letter);
-
-//         TODO: delete this hardcoding
-        if (keyData.name().equals("a")) {
-            this.handleSelect();
-        }
     }
 
     public KeyData getKeyData() {
