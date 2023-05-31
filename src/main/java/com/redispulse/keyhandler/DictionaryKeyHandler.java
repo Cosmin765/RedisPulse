@@ -82,7 +82,9 @@ public class DictionaryKeyHandler extends KeyHandler {
         operationsController.controllersContainer.getChildren().clear();
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> onSavePressed());
-        operationsController.controllersContainer.getChildren().add(saveButton);
+        Button deleteButton = new Button("Delete");
+        deleteButton.setOnAction(event -> onDeletePressed());
+        operationsController.controllersContainer.getChildren().addAll(saveButton, deleteButton);
     }
 
     private void onSavePressed() {
@@ -103,6 +105,11 @@ public class DictionaryKeyHandler extends KeyHandler {
         handleSelect();
         tableView.getSelectionModel().select(item);
         shouldScroll = true;
+    }
+
+    private void onDeletePressed() {
+        operations.getJedis().hdel(keyData.name(), oldKey);
+        handleSelect();
     }
 
     @Override

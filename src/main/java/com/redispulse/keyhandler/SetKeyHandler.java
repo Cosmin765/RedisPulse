@@ -39,9 +39,7 @@ public class SetKeyHandler extends KeyHandler {
             if(newSkin == null) {
                 return;
             }
-            Platform.runLater(() -> {
-                listView.scrollTo(listView.getSelectionModel().getSelectedIndex());
-            });
+            Platform.runLater(() -> listView.scrollTo(listView.getSelectionModel().getSelectedIndex()));
         });
 
         for(String item : operations.getRange(0, 50)) {
@@ -62,14 +60,12 @@ public class SetKeyHandler extends KeyHandler {
         operationsController.controllersContainer.getChildren().clear();
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> onSavePressed());
-        operationsController.controllersContainer.getChildren().add(saveButton);
+        Button deleteButton = new Button("Delete");
+        deleteButton.setOnAction(event -> onDeletePressed());
+        operationsController.controllersContainer.getChildren().addAll(saveButton, deleteButton);
     }
 
     private void onSavePressed() {
-        int selectedIndex = listView.getSelectionModel().getSelectedIndex();
-        if(selectedIndex == -1) {
-            return;
-        }
         String textAreaContent = textArea.getText();
 
         if(!oldElement.equals(textAreaContent)) {
@@ -78,6 +74,11 @@ public class SetKeyHandler extends KeyHandler {
 
         operations.push(textAreaContent);
         handleSelect();  // reload the values
+    }
+
+    private void onDeletePressed() {
+        operations.getJedis().srem(keyData.name(), oldElement);
+        handleSelect();
     }
 
     @Override

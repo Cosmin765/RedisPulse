@@ -61,7 +61,9 @@ public class ListKeyHandler extends KeyHandler {
         operationsController.controllersContainer.getChildren().clear();
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> onSavePressed());
-        operationsController.controllersContainer.getChildren().add(saveButton);
+        Button deleteButton = new Button("Delete");
+        deleteButton.setOnAction(event -> onDeletePressed());
+        operationsController.controllersContainer.getChildren().addAll(saveButton, deleteButton);
     }
 
     private void onSavePressed() {
@@ -74,6 +76,17 @@ public class ListKeyHandler extends KeyHandler {
         handleSelect();  // reload the values
         listView.getSelectionModel().select(selectedIndex);
         shouldScroll = true;
+    }
+
+    private void onDeletePressed() {
+        int selectedIndex = listView.getSelectionModel().getSelectedIndex();
+        if(selectedIndex == -1) {
+            return;
+        }
+
+        String element = listView.getItems().get(selectedIndex).getText();
+        operations.getJedis().lrem(keyData.name(), 1, element);
+        handleSelect();
     }
 
     @Override

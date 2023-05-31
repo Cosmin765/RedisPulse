@@ -79,15 +79,12 @@ public class SortedSetHandler extends KeyHandler {
         operationsController.controllersContainer.getChildren().clear();
         Button saveButton = new Button("Save");
         saveButton.setOnAction(event -> onSavePressed());
-        operationsController.controllersContainer.getChildren().add(saveButton);
+        Button deleteButton = new Button("Delete");
+        deleteButton.setOnAction(event -> onDeletePressed());
+        operationsController.controllersContainer.getChildren().addAll(saveButton, deleteButton);
     }
 
     private void onSavePressed() {
-        int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
-        if(selectedIndex == -1) {
-            return;
-        }
-
         double newScore;
         try {
             newScore = Double.parseDouble(scoreField.getText());
@@ -106,6 +103,11 @@ public class SortedSetHandler extends KeyHandler {
         handleSelect();  // reload the values
         tableView.getSelectionModel().select(item);
         shouldScroll = true;
+    }
+
+    private void onDeletePressed() {
+        operations.getJedis().zrem(keyData.name(), oldElement);
+        handleSelect();
     }
 
     @Override
