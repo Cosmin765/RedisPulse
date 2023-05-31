@@ -84,7 +84,10 @@ public class DictionaryKeyHandler extends KeyHandler {
         saveButton.setOnAction(event -> onSavePressed());
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(event -> onDeletePressed());
-        operationsController.controllersContainer.getChildren().addAll(saveButton, deleteButton);
+        Button addButton = new Button("Add entry");
+        addButton.setOnAction(event -> onAddPressed());
+        operationsController.controllersContainer.getChildren()
+                .addAll(saveButton, deleteButton, addButton);
     }
 
     private void onSavePressed() {
@@ -96,9 +99,10 @@ public class DictionaryKeyHandler extends KeyHandler {
         String newKey = keyField.getText();
         String newValue = valueArea.getText();
 
-        if(!newKey.equals(oldKey)) {
+        if(oldKey != null && !newKey.equals(oldKey)) {
             operations.getJedis().hdel(keyData.name(), oldKey);
         }
+        oldKey = null;
 
         Map.Entry<String, String> item = new AbstractMap.SimpleEntry<>(newKey, newValue);
         operations.push(item);
@@ -110,6 +114,14 @@ public class DictionaryKeyHandler extends KeyHandler {
     private void onDeletePressed() {
         operations.getJedis().hdel(keyData.name(), oldKey);
         handleSelect();
+    }
+
+    private void onAddPressed() {
+        oldKey = null;
+        keyField.clear();
+        valueArea.clear();
+        keyField.requestFocus();
+        tableView.getSelectionModel().clearSelection();
     }
 
     @Override

@@ -14,6 +14,7 @@ public class ListKeyHandler extends KeyHandler {
     private ListView<Text> listView;
     private TextArea textArea;
     private boolean shouldScroll = false;
+    private boolean addNew = false;
     public ListKeyHandler(KeyData keyData) {
         super(keyData);
         operations = new ListOperations(keyData.name(), keyData.connection());
@@ -28,6 +29,7 @@ public class ListKeyHandler extends KeyHandler {
 
         listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
+                addNew = false;
                 textArea.setText(newValue.getText());
             }
         });
@@ -63,15 +65,25 @@ public class ListKeyHandler extends KeyHandler {
         saveButton.setOnAction(event -> onSavePressed());
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(event -> onDeletePressed());
-        operationsController.controllersContainer.getChildren().addAll(saveButton, deleteButton);
+        Button addButton = new Button("Add entry");
+        addButton.setOnAction(event -> onAddPressed());
+        operationsController.controllersContainer.getChildren()
+                .addAll(saveButton, deleteButton, addButton);
     }
 
     private void onSavePressed() {
+        String textAreaContent = textArea.getText();
+
+        if(addNew) {
+            operations.push(textAreaContent);
+            handleSelect();
+            return;
+        }
+
         int selectedIndex = listView.getSelectionModel().getSelectedIndex();
         if(selectedIndex == -1) {
             return;
         }
-        String textAreaContent = textArea.getText();
         operations.getJedis().lset(keyData.name(), selectedIndex, textAreaContent);
         handleSelect();  // reload the values
         listView.getSelectionModel().select(selectedIndex);
@@ -87,6 +99,13 @@ public class ListKeyHandler extends KeyHandler {
         String element = listView.getItems().get(selectedIndex).getText();
         operations.getJedis().lrem(keyData.name(), 1, element);
         handleSelect();
+    }
+
+    private void onAddPressed() {
+        textArea.clear();
+        textArea.requestFocus();
+        addNew = true;
+        listView.getSelectionModel().clearSelection();
     }
 
     @Override

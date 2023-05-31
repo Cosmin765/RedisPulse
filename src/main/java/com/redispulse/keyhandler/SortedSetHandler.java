@@ -81,7 +81,10 @@ public class SortedSetHandler extends KeyHandler {
         saveButton.setOnAction(event -> onSavePressed());
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(event -> onDeletePressed());
-        operationsController.controllersContainer.getChildren().addAll(saveButton, deleteButton);
+        Button addButton = new Button("Add entry");
+        addButton.setOnAction(event -> onAddPressed());
+        operationsController.controllersContainer.getChildren()
+                .addAll(saveButton, deleteButton, addButton);
     }
 
     private void onSavePressed() {
@@ -94,9 +97,10 @@ public class SortedSetHandler extends KeyHandler {
         }
         String newElement = elementArea.getText();
 
-        if(!oldElement.equals(newElement)) {
+        if(oldElement != null && !newElement.equals(oldElement)) {
             operations.getJedis().zrem(keyData.name(), oldElement);
         }
+        oldElement = null;
 
         Tuple item = new Tuple(newElement, newScore);
         operations.push(item);
@@ -108,6 +112,14 @@ public class SortedSetHandler extends KeyHandler {
     private void onDeletePressed() {
         operations.getJedis().zrem(keyData.name(), oldElement);
         handleSelect();
+    }
+
+    private void onAddPressed() {
+        oldElement = null;
+        scoreField.clear();
+        elementArea.clear();
+        scoreField.requestFocus();
+        tableView.getSelectionModel().clearSelection();
     }
 
     @Override

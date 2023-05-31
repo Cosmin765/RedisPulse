@@ -62,15 +62,19 @@ public class SetKeyHandler extends KeyHandler {
         saveButton.setOnAction(event -> onSavePressed());
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(event -> onDeletePressed());
-        operationsController.controllersContainer.getChildren().addAll(saveButton, deleteButton);
+        Button addButton = new Button("Add entry");
+        addButton.setOnAction(event -> onAddPressed());
+        operationsController.controllersContainer.getChildren()
+                .addAll(saveButton, deleteButton, addButton);
     }
 
     private void onSavePressed() {
         String textAreaContent = textArea.getText();
 
-        if(!oldElement.equals(textAreaContent)) {
+        if(oldElement != null && !textAreaContent.equals(oldElement)) {
             operations.getJedis().srem(keyData.name(), oldElement);
         }
+        oldElement = null;
 
         operations.push(textAreaContent);
         handleSelect();  // reload the values
@@ -79,6 +83,13 @@ public class SetKeyHandler extends KeyHandler {
     private void onDeletePressed() {
         operations.getJedis().srem(keyData.name(), oldElement);
         handleSelect();
+    }
+
+    private void onAddPressed() {
+        oldElement = null;
+        textArea.clear();
+        textArea.requestFocus();
+        listView.getSelectionModel().clearSelection();
     }
 
     @Override
