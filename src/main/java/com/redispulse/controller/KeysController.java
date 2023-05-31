@@ -6,9 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -61,6 +59,7 @@ public class KeysController implements Initializable {
             ContextMenu contextMenu = new ContextMenu();
             MenuItem reloadOption = new MenuItem("Reload");
             MenuItem deleteOption = new MenuItem("Delete");
+            MenuItem renameOption = new MenuItem("Rename");
 
             reloadOption.setOnAction(e -> {
                 int selectedIndex = keysListView.getSelectionModel().getSelectedIndex();
@@ -71,10 +70,36 @@ public class KeysController implements Initializable {
             deleteOption.setOnAction(e -> {
                 int selectedIndex = keysListView.getSelectionModel().getSelectedIndex();
                 Parent selectedElement = keysListView.getItems().get(selectedIndex);
-                controllers.get(selectedElement).deleteKey();
+                KeyController keyController = controllers.get(selectedElement);
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+                alert.setTitle("Delete");
+                String message = String.format("Are you sure you want to delete \"%s\"?", keyController.getKeyData().name());
+                alert.setHeaderText(message);
+
+                alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+
+                ButtonType result = alert.showAndWait().orElse(ButtonType.CANCEL);
+
+                if(result == ButtonType.OK) {
+                    keyController.deleteKey();
+                }
             });
 
-            contextMenu.getItems().addAll(reloadOption, deleteOption);
+            renameOption.setOnAction(e -> {
+                int selectedIndex = keysListView.getSelectionModel().getSelectedIndex();
+                Parent selectedElement = keysListView.getItems().get(selectedIndex);
+                KeyController keyController = controllers.get(selectedElement);
+
+                keyController.textField.setVisible(true);
+                keyController.textField.requestFocus();
+                keyController.keyLabel.setVisible(false);
+
+                keyController.textField.setText(keyController.keyLabel.getText());
+            });
+
+            contextMenu.getItems().addAll(reloadOption, deleteOption, renameOption);
             contextMenu.show(keysListView, event.getScreenX(), event.getScreenY());
         });
     }

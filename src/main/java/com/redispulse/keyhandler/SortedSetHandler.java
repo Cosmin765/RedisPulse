@@ -1,4 +1,4 @@
-package com.redispulse.controller.keyhandler;
+package com.redispulse.keyhandler;
 
 import com.redispulse.operations.SortedSetOperations;
 import com.redispulse.operations.base.OrderedIterableOperations;

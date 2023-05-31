@@ -1,4 +1,4 @@
-package com.redispulse.controller.keyhandler;
+package com.redispulse.keyhandler;
 
 import com.redispulse.operations.StringOperations;
 import com.redispulse.operations.base.BasicOperations;
@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
 public class StringKeyHandler extends KeyHandler {
-    private final BasicOperations<String> operations;
+    private final StringOperations operations;
     private TextArea textArea;
     public StringKeyHandler(KeyData keyData) {
         super(keyData);
@@ -36,6 +36,7 @@ public class StringKeyHandler extends KeyHandler {
 
     @Override
     public void handleSelect() {
+        operations.setKey(keyData.name());
         addTextArea();
         addButtons();
     }

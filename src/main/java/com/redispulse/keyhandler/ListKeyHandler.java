@@ -1,4 +1,4 @@
-package com.redispulse.controller.keyhandler;
+package com.redispulse.keyhandler;
 
 import com.redispulse.operations.ListOperations;
 import com.redispulse.util.KeyData;
@@ -78,6 +78,7 @@ public class ListKeyHandler extends KeyHandler {
 
     @Override
     public void handleSelect() {
+        operations.setKey(keyData.name());
         addValues();
         addTextArea();
         addButtons();

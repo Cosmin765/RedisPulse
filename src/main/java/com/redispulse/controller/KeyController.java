@@ -1,10 +1,13 @@
 package com.redispulse.controller;
 
-import com.redispulse.controller.keyhandler.*;
+import com.redispulse.keyhandler.*;
 import com.redispulse.util.KeyData;
 import com.redispulse.util.KeyType;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
@@ -14,13 +17,16 @@ import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.net.URL;
 import java.util.*;
 
-public class KeyController {
+public class KeyController implements Initializable {
     private final Logger logger = LogManager.getLogger(ConnectionsController.class);
     private final Map<KeyType, Pair<Color, String>> typeToData = new HashMap<>();
     @FXML
-    private Label keyLabel;
+    public Label keyLabel;
+    @FXML
+    public TextField textField;
     @FXML
     private Text letterText;
     @FXML
@@ -93,9 +99,36 @@ public class KeyController {
         }
     }
 
+    public KeyData getKeyData() {
+        return keyData;
+    }
+
     public void handleSelect() {
         operationsController.titleText.setText(keyData.name());
-
+        keyHandler.setKeyData(keyData);
         keyHandler.handleSelect();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        textField.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            switch (event.getCode()) {
+                case ENTER -> {
+                    textField.setVisible(false);
+                    keyLabel.setVisible(true);
+                    keyLabel.requestFocus();
+                    String newKeyName = textField.getText();
+                    keyLabel.setText(newKeyName);
+                    keyData.connection().rename(keyData.name(), newKeyName);
+                    keyData = new KeyData(newKeyName, keyData.type(), keyData.connection());
+                    handleSelect();
+                }
+                case ESCAPE -> {
+                    textField.setVisible(false);
+                    keyLabel.setVisible(true);
+                    keyLabel.requestFocus();
+                }
+            }
+        });
     }
 }

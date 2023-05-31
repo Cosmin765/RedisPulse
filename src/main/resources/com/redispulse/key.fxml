@@ -6,7 +6,10 @@
 
 <?import javafx.scene.shape.Circle?>
 <HBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.redispulse.controller.KeyController">
-    <Label fx:id="keyLabel" />
+    <StackPane alignment="BASELINE_LEFT">
+        <Label fx:id="keyLabel" />
+        <TextField fx:id="textField" visible="false" />
+    </StackPane>
     <Region HBox.hgrow="always" />
     <StackPane>
         <Circle fx:id="bubble" radius="10"/>

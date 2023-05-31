@@ -1,4 +1,4 @@
-package com.redispulse.controller.keyhandler;
+package com.redispulse.keyhandler;
 
 import com.redispulse.controller.OperationsController;
 import com.redispulse.util.KeyData;
@@ -13,4 +13,8 @@ public abstract class KeyHandler {
         this.operationsController = operationsController;
     }
     public abstract void handleSelect();
+
+    public void setKeyData(KeyData keyData) {
+        this.keyData = keyData;
+    }
 }
