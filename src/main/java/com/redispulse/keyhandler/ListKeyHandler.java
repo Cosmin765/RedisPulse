@@ -13,7 +13,6 @@ public class ListKeyHandler extends KeyHandler {
     private final ListOperations operations;
     private ListView<Text> listView;
     private TextArea textArea;
-    private int selectedIndex = -1;
     private boolean shouldScroll = false;
     public ListKeyHandler(KeyData keyData) {
         super(keyData);
@@ -27,21 +26,8 @@ public class ListKeyHandler extends KeyHandler {
         listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         listView.setPrefHeight(200);
 
-        for(String item : operations.getRange(0, 50)) {
-            Text element = new Text(item);
-            listView.getItems().add(element);
-        }
-        operationsController.valueContainer.getChildren().add(listView);
-    }
-
-    private void addTextArea() {
-        textArea = new TextArea();
-        textArea.setWrapText(true);
-        operationsController.valueContainer.getChildren().add(textArea);
-
         listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                selectedIndex = listView.getSelectionModel().getSelectedIndex();
                 textArea.setText(newValue.getText());
             }
         });
@@ -56,6 +42,19 @@ public class ListKeyHandler extends KeyHandler {
                 shouldScroll = false;
             });
         });
+
+        for(String item : operations.getRange(0, 50)) {
+            Text element = new Text(item);
+            listView.getItems().add(element);
+        }
+
+        operationsController.valueContainer.getChildren().add(listView);
+    }
+
+    private void addEditing() {
+        textArea = new TextArea();
+        textArea.setWrapText(true);
+        operationsController.valueContainer.getChildren().add(textArea);
     }
 
     private void addButtons() {
@@ -66,6 +65,7 @@ public class ListKeyHandler extends KeyHandler {
     }
 
     private void onSavePressed() {
+        int selectedIndex = listView.getSelectionModel().getSelectedIndex();
         if(selectedIndex == -1) {
             return;
         }
@@ -80,7 +80,7 @@ public class ListKeyHandler extends KeyHandler {
     public void handleSelect() {
         operations.setKey(keyData.name());
         addValues();
-        addTextArea();
+        addEditing();
         addButtons();
     }
 }

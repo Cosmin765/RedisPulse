@@ -1,40 +1,115 @@
 package com.redispulse.keyhandler;
 
 import com.redispulse.operations.DictionaryOperations;
-import com.redispulse.operations.base.IterableOperations;
 import com.redispulse.util.KeyData;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.Map;
 
 public class DictionaryKeyHandler extends KeyHandler {
-    private final IterableOperations<Map.Entry<String, String>> operations;
+    private final DictionaryOperations operations;
+    private TableView<Map.Entry<String, String>> tableView;
+    private TextField keyField;
+    private TextArea valueArea;
+    private String oldKey;
+    private boolean shouldScroll;
     public DictionaryKeyHandler(KeyData keyData) {
         super(keyData);
         operations = new DictionaryOperations(keyData.name(), keyData.connection());
     }
 
+    @SuppressWarnings("unchecked")
+    private void addValues() {
+        operationsController.valueContainer.getChildren().clear();
+
+        tableView = new TableView<>();
+        tableView.setPrefHeight(200);
+
+        tableView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            if(newValue == null) {
+                return;
+            }
+
+            oldKey = newValue.getKey();
+
+            keyField.setText(newValue.getKey());
+            valueArea.setText(newValue.getValue());
+        });
+
+        // scrolling event
+        tableView.skinProperty().addListener((obs, oldSkin, newSkin) -> {
+            if(newSkin == null || !shouldScroll) {
+                return;
+            }
+            Platform.runLater(() -> {
+                tableView.scrollTo(tableView.getSelectionModel().getSelectedIndex());
+                shouldScroll = false;
+            });
+        });
+
+        TableColumn<Map.Entry<String, String>, Double> scoreColumn = new TableColumn<>("Key");
+        TableColumn<Map.Entry<String, String>, String> valueColumn = new TableColumn<>("Value");
+
+        scoreColumn.setCellValueFactory(new PropertyValueFactory<>("key"));
+        valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+
+        tableView.getColumns().addAll(scoreColumn, valueColumn);
+
+        ObservableList<Map.Entry<String, String>> items = FXCollections.observableArrayList();
+        for(Map.Entry<String, String> item : operations.getRange(0, 50)) {
+            items.add(item);
+        }
+
+        tableView.setItems(items);
+
+        operationsController.valueContainer.getChildren().add(tableView);
+
+    }
+
+    private void addEditing() {
+        keyField = new TextField();
+        valueArea = new TextArea();
+        valueArea.setWrapText(true);
+        operationsController.valueContainer.getChildren().addAll(keyField, valueArea);
+    }
+
+    private void addButtons() {
+        operationsController.controllersContainer.getChildren().clear();
+        Button saveButton = new Button("Save");
+        saveButton.setOnAction(event -> onSavePressed());
+        operationsController.controllersContainer.getChildren().add(saveButton);
+    }
+
+    private void onSavePressed() {
+        int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+        if(selectedIndex == -1) {
+            return;
+        }
+
+        String newKey = keyField.getText();
+        String newValue = valueArea.getText();
+
+        if(!newKey.equals(oldKey)) {
+            operations.getJedis().hdel(keyData.name(), oldKey);
+        }
+
+        Map.Entry<String, String> item = new AbstractMap.SimpleEntry<>(newKey, newValue);
+        operations.push(item);
+        handleSelect();
+        tableView.getSelectionModel().select(item);
+        shouldScroll = true;
+    }
+
     @Override
     public void handleSelect() {
-//        List<Map.Entry<String, String>> items = new ArrayList<>();
-//        for(int i = 0; i < 20_000; ++i) {
-//            Map.Entry<String, String> item = new AbstractMap.SimpleEntry<>(Integer.toString(i), Integer.toString(i));
-//            items.add(item);
-//        }
-//        operations.assign(items);
-//
-//        System.out.println("-------------------");
-
-//        Set<Map.Entry<String, String>> seen = new HashSet<>();
-
-        long index = 0;
-        for(Map.Entry<String, String> item : operations.read()) {
-//            if(seen.contains(item)) {
-//                throw new RuntimeException();
-//            }
-//            seen.add(item);
-//            System.out.println(item);
-            index++;
-        }
-        System.out.println(index);
+        operations.setKey(keyData.name());
+        addValues();
+        addEditing();
+        addButtons();
     }
 }
