@@ -10,5 +10,17 @@
         <Text fx:id="titleText"/>
         <VBox fx:id="valueContainer" />
         <HBox fx:id="controllersContainer" alignment="CENTER" />
+        <Region VBox.vgrow="ALWAYS" />
+        <HBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <VBox>
+                <Text>
+                    RedisPulse 0.1.0
+                </Text>
+                <Text>
+                    © Cosmin Turtureanu
+                </Text>
+            </VBox>
+        </HBox>
     </VBox>
 </VBox>
