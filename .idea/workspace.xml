@@ -10,24 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c10677f1-1736-4dbb-9741-e23a902ac811" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/OperationsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/operations/ListOperations.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/operations/StringOperations.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/operations/base/IterableOperations.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/operations/base/OrderedIterableOperations.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/util/RedisConnection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/operations.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/ConnectionsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/KeyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/KeyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/KeysController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/KeysController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/MainFrameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/MainFrameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/controller/base/OperationsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/operations/base/BasicOperations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/util/KeyData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/util/KeyData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/redispulse/util/RedisIterable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/redispulse/util/RedisIterable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/key.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/key.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/redispulse/main-frame.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/redispulse/main-frame.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +21,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -62,17 +45,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Projects/RedisPulse",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Projects/RedisPulse&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Projects\RedisPulse\src\main\resources\com\redispulse" />
